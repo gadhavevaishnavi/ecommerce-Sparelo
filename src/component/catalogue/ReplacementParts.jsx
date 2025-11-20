@@ -45,10 +45,10 @@ const ReplacementParts = () => {
   );
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
+    <section className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-6 sm:py-8 md:py-10">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-center mb-8">
-        <h3 className="text-3xl font-bold text-gray-800">
+      <div className="flex flex-col md:flex-row justify-between items-center mb-6 sm:mb-8 gap-4">
+        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800">
           Replacement <span className="text-sky-600">Parts</span>
         </h3>
 
@@ -57,24 +57,27 @@ const ReplacementParts = () => {
           placeholder="Filter Category"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="mt-4 md:mt-0 w-full md:w-64 border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+          className="w-full md:w-64 border border-gray-300 rounded-lg px-3 py-2 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-sky-500"
         />
       </div>
 
       {/* Grid List */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+      <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4 md:gap-6">
         {filteredParts.map((part, index) => (
           <a
             key={index}
             href={part.link}
-            className="flex flex-col items-center bg-white shadow hover:shadow-lg rounded-xl p-2 transition-transform transform hover:scale-105"
+            className="flex flex-col items-center bg-white shadow hover:shadow-lg rounded-lg sm:rounded-xl p-2 sm:p-3 transition-transform transform hover:scale-105"
           >
             <img
               src={part.img}
               alt={part.name}
-              className="w-14 h-14 object-contain mb-2"
+              className="w-12 h-12 sm:w-14 sm:h-14 object-contain mb-2"
+              onError={(e) => {
+                e.target.src = 'https://via.placeholder.com/100x100?text=' + part.name;
+              }}
             />
-            <span className="text-xs text-gray-700 text-center font-medium">
+            <span className="text-[10px] sm:text-xs text-gray-700 text-center font-medium line-clamp-2">
               {part.name}
             </span>
           </a>

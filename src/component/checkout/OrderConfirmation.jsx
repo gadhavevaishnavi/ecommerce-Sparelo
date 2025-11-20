@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { 
@@ -18,25 +18,80 @@ const OrderConfirmation = () => {
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    // Get order ID from URL params or location state
     const orderId = new URLSearchParams(location.search).get('orderId') || location.state?.orderId;
     
     if (orderId) {
-      // Load order from localStorage
       const savedOrders = JSON.parse(localStorage.getItem('orders') || '[]');
       const foundOrder = savedOrders.find(o => o.id === orderId);
       
       if (foundOrder) {
         setOrder(foundOrder);
       } else {
-        // If order not found, redirect to orders page
         navigate('/myorder');
       }
     } else {
-      // If no order ID, redirect to orders page
       navigate('/myorder');
     }
   }, [location, navigate]);
+
+  // Format date
+  const formatDate = useCallback((dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }, []);
+
+  // Get estimated delivery date
+  const getEstimatedDelivery = useCallback(() => {
+    if (!order) return '';
+    const date = new Date(order.date);
+    date.setDate(date.getDate() + 7);
+    return date.toLocaleDateString('en-US', { 
+      month: 'long', 
+      day: 'numeric',
+      year: 'numeric'
+    });
+  }, [order]);
+
+  // Order Timeline Steps Component
+  const TimelineStep = React.memo(({ icon: Icon, title, description, date, isActive, isCompleted }) => (
+    <div className="flex gap-4">
+      <div className="flex flex-col items-center">
+        <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-lg ${
+          isCompleted ? 'bg-green-500' : isActive ? 'bg-blue-500' : 'bg-gray-300'
+        }`}>
+          <Icon className={`text-xl ${
+            isCompleted || isActive ? 'text-white' : 'text-gray-500'
+          }`} />
+        </div>
+        {title !== 'Delivered' && (
+          <div className={`w-0.5 h-16 mt-2 ${
+            isCompleted ? 'bg-green-500' : 'bg-gray-300'
+          }`}></div>
+        )}
+      </div>
+      <div className="flex-1 pb-6">
+        <h3 className={`font-semibold mb-1 ${
+          isCompleted || isActive ? 'text-gray-800' : 'text-gray-400'
+        }`}>
+          {title}
+        </h3>
+        <p className={`text-sm mb-1 ${
+          isCompleted || isActive ? 'text-gray-600' : 'text-gray-500'
+        }`}>
+          {description}
+        </p>
+        {date && (
+          <p className="text-xs text-gray-500">{date}</p>
+        )}
+      </div>
+    </div>
+  ));
 
   if (!order) {
     return (
@@ -48,29 +103,6 @@ const OrderConfirmation = () => {
       </div>
     );
   }
-
-  // Format date
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  // Get estimated delivery date
-  const getEstimatedDelivery = () => {
-    const date = new Date(order.date);
-    date.setDate(date.getDate() + 7); // 7 days from order date
-    return date.toLocaleDateString('en-US', { 
-      month: 'long', 
-      day: 'numeric',
-      year: 'numeric'
-    });
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 py-8">
@@ -229,72 +261,33 @@ const OrderConfirmation = () => {
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Order Tracking</h2>
           
           <div className="relative">
-            {/* Timeline */}
             <div className="space-y-6">
-              {/* Step 1: Order Confirmed */}
-              <div className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
-                    <FaCheckCircle className="text-white text-xl" />
-                  </div>
-                  <div className="w-0.5 h-16 bg-gray-300 mt-2"></div>
-                </div>
-                <div className="flex-1 pb-6">
-                  <h3 className="font-semibold text-gray-800 mb-1">Order Confirmed</h3>
-                  <p className="text-sm text-gray-600 mb-1">
-                    Your order has been confirmed and payment received
-                  </p>
-                  <p className="text-xs text-gray-500">{formatDate(order.date)}</p>
-                </div>
-              </div>
-
-              {/* Step 2: Processing */}
-              <div className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                    <FaBox className="text-white text-xl" />
-                  </div>
-                  <div className="w-0.5 h-16 bg-gray-300 mt-2"></div>
-                </div>
-                <div className="flex-1 pb-6">
-                  <h3 className="font-semibold text-gray-800 mb-1">Processing</h3>
-                  <p className="text-sm text-gray-600 mb-1">
-                    Your order is being prepared for shipment
-                  </p>
-                  <p className="text-xs text-gray-500">Expected: {formatDate(new Date(Date.now() + 86400000).toISOString())}</p>
-                </div>
-              </div>
-
-              {/* Step 3: Shipped */}
-              <div className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                    <FaTruck className="text-gray-500 text-xl" />
-                  </div>
-                  <div className="w-0.5 h-16 bg-gray-300 mt-2"></div>
-                </div>
-                <div className="flex-1 pb-6">
-                  <h3 className="font-semibold text-gray-400 mb-1">Shipped</h3>
-                  <p className="text-sm text-gray-500 mb-1">
-                    Your order will be shipped soon
-                  </p>
-                </div>
-              </div>
-
-              {/* Step 4: Delivered */}
-              <div className="flex gap-4">
-                <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
-                    <FaCheckCircle className="text-gray-400 text-xl" />
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <h3 className="font-semibold text-gray-400 mb-1">Delivered</h3>
-                  <p className="text-sm text-gray-500 mb-1">
-                    Your order will be delivered to your address
-                  </p>
-                </div>
-              </div>
+              <TimelineStep
+                icon={FaCheckCircle}
+                title="Order Confirmed"
+                description="Your order has been confirmed and payment received"
+                date={formatDate(order.date)}
+                isCompleted={true}
+              />
+              <TimelineStep
+                icon={FaBox}
+                title="Processing"
+                description="Your order is being prepared for shipment"
+                date={formatDate(new Date(Date.now() + 86400000).toISOString())}
+                isActive={true}
+              />
+              <TimelineStep
+                icon={FaTruck}
+                title="Shipped"
+                description="Your order will be shipped soon"
+                isActive={false}
+              />
+              <TimelineStep
+                icon={FaCheckCircle}
+                title="Delivered"
+                description="Your order will be delivered to your address"
+                isActive={false}
+              />
             </div>
           </div>
         </motion.div>
@@ -353,5 +346,3 @@ const OrderConfirmation = () => {
 };
 
 export default OrderConfirmation;
-
-

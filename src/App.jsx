@@ -82,12 +82,14 @@ import Sensors_ControlUnits from "./component/catalogue/Sensors_ControlUnits";
 import Steering from "./component/catalogue/Steering";
 import Suspention_Arms from "./component/catalogue/Suspention_Arms";
 import TowbarParts from "./component/catalogue/TowbarParts";
-import  Transmission  from "./component/catalogue/Transmission";
-import  Trims  from "./component/catalogue/Trims";
-import  Tyres_Alloys  from "./component/catalogue/Tyres_Alloys";
-import Universal  from "./component/catalogue/Universal";
-import  Wheels  from "./component/catalogue/Wheels";
-import  Belts_Chains_Rollers  from "./component/catalogue/Belts_Chains_Rollers";
+import Transmission from "./component/catalogue/Transmission";
+import Trims from "./component/catalogue/Trims";
+import Tyres_Alloys from "./component/catalogue/Tyres_Alloys";
+import Universal from "./component/catalogue/Universal";
+import Wheels from "./component/catalogue/Wheels";
+import Belts_Chains_Rollers from "./component/catalogue/Belts_Chains_Rollers";
+import Belt from "./component/catalogue/Belt";
+import TimingBelt from "./component/catalogue/TimingBelt";
 import { Brands } from "./component/brand/Brands";
 import VehiclePage from "./component/Vehicles/VehiclePage";
 import { Maruti } from "./component/Vehicles/Maruti";
@@ -118,22 +120,22 @@ import ReturnPolicy from "./features/support/ReturnPolicy";
 const Layout = ({ children }) => {
   const location = useLocation();
   const hideHeaderFooter = [
-    "/login", 
-    "/signup", 
+    "/login",
+    "/signup",
     "/forgot-password",
     "/admin/dashboard",
     "/vendor/dashboard",
     "/mechanics/dashboard",
     "/garage/dashboard",
     "/shipping/dashboard"
-  ].includes(location.pathname) || location.pathname.startsWith("/admin/") || 
+  ].includes(location.pathname) || location.pathname.startsWith("/admin/") ||
     location.pathname.startsWith("/vendor/") || location.pathname.startsWith("/mechanics/") ||
     location.pathname.startsWith("/garage/") || location.pathname.startsWith("/shipping/");
   const hideFooter = hideHeaderFooter || location.pathname.startsWith("/checkout") || location.pathname === "/cart";
   return (
     <>
       {!hideHeaderFooter && <Header />}
-      <div className={!hideHeaderFooter ? "mt-4 sm:mt-4" : ""}>
+      <div className={!hideHeaderFooter ? "pt-[100px] sm:pt-[110px] md:pt-[110px]" : ""}>
         {children}
       </div>
       <ToastContainer />
@@ -152,175 +154,178 @@ function App() {
           <EscrowProvider>
             <CartProvider>
               <Router>
-          <Layout>
-            <Routes>
-          {/* Home Page */}
-          <Route
-            path="/"
-            element={
-              <>
+                <Layout>
+                  <Routes>
+                    {/* Home Page */}
+                    <Route
+                      path="/"
+                      element={
+                        <>
 
-                <BoodmoUi />
-                <SearchByCategory />            
-                <ChooseWorkshop />
-                <ChooseMechanics />
-                {/* <SearchSection /> */}
+                          <BoodmoUi />
+                          <SearchByCategory />
+                          <ChooseWorkshop />
+                          <ChooseMechanics />
+                          {/* <SearchSection /> */}
 
-                <CurrentOffers />             
-                <WhyChooseAftermarket />
-                <BrandTrustAndCarMakers />
-                <Article_review
-                  items={[{ label: "Articles and Reviews", href: "/pages/article/" }]}
-                />
-                <SpareloPage />
-              </>
-            }
-          />
+                          <CurrentOffers />
+                          <WhyChooseAftermarket />
+                          <BrandTrustAndCarMakers />
+                          <Article_review
+                            items={[{ label: "Articles and Reviews", href: "/pages/article/" }]}
+                          />
+                          <SpareloPage />
+                        </>
+                      }
+                    />
 
-          {/* Authentication Pages */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/signup" element={<Signup />} />
+                    {/* Authentication Pages */}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/signup" element={<Signup />} />
 
-          {/* Dashboard Routes - Protected */}
-          <Route 
-            path="/admin/dashboard/*" 
-            element={
-              <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN]}>
-                <SuperAdminDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/vendor/dashboard/*" 
-            element={
-              <ProtectedRoute allowedRoles={[USER_ROLES.VENDOR]}>
-                <VendorDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/mechanics/dashboard/*" 
-            element={
-              <ProtectedRoute allowedRoles={[USER_ROLES.MECHANICS]}>
-                <MechanicsDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/garage/dashboard/*" 
-            element={
-              <ProtectedRoute allowedRoles={[USER_ROLES.GARAGE]}>
-                <GarageDashboard />
-              </ProtectedRoute>
-            } 
-          />
-          <Route 
-            path="/shipping/dashboard/*" 
-            element={
-              <ProtectedRoute allowedRoles={[USER_ROLES.SHIPPING]}>
-                <ShippingDashboard />
-              </ProtectedRoute>
-            } 
-          />
+                    {/* Dashboard Routes - Protected */}
+                    <Route
+                      path="/admin/dashboard/*"
+                      element={
+                        <ProtectedRoute allowedRoles={[USER_ROLES.SUPER_ADMIN]}>
+                          <SuperAdminDashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/vendor/dashboard/*"
+                      element={
+                        <ProtectedRoute allowedRoles={[USER_ROLES.VENDOR]}>
+                          <VendorDashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/mechanics/dashboard/*"
+                      element={
+                        <ProtectedRoute allowedRoles={[USER_ROLES.MECHANICS]}>
+                          <MechanicsDashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/garage/dashboard/*"
+                      element={
+                        <ProtectedRoute allowedRoles={[USER_ROLES.GARAGE]}>
+                          <GarageDashboard />
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/shipping/dashboard/*"
+                      element={
+                        <ProtectedRoute allowedRoles={[USER_ROLES.SHIPPING]}>
+                          <ShippingDashboard />
+                        </ProtectedRoute>
+                      }
+                    />
 
-          {/* Other Pages */}
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/vendor" element={<VendorPage />} />
-          <Route path="/brands" element={<Brands />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout/address" element={<ShippingAddress />} />
-          <Route path="/checkout/review" element={<Review />} />
-          <Route path="/checkout/payment" element={<Payment />} />
-          <Route path="/checkout/confirmation" element={<OrderConfirmation />} />
-          <Route path="/category" element={<SearchByCategory />} />
-          <Route path="/garage" element={<Garage />} />
-          <Route path="/document" element={<Document />} />
-          <Route path="/myprofile" element={<MyProfile />} />
-          <Route path="/myorder" element={<MyOrder />} />
-          <Route path="/mywishlist" element={<MyWishlist />} />
-          <Route path="/company_gst" element={<Company_GST />} />
-          <Route path="/addresses" element={<Addresses />} />
-          <Route path="/diagnostic" element={<DiagnosticForm />} />
-          <Route path="/support" element={<ChatbotSupport />} />
-          <Route path="/addresses" element={<Addresses />} />
-          <Route path="/faq" element={<FAQ />} />
-          <Route path="/return-policy" element={<ReturnPolicy />} />
+                    {/* Other Pages */}
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/vendor" element={<VendorPage />} />
+                    <Route path="/brands" element={<Brands />} />
+                    <Route path="/cart" element={<Cart />} />
+                    <Route path="/checkout/address" element={<ShippingAddress />} />
+                    <Route path="/checkout/review" element={<Review />} />
+                    <Route path="/checkout/payment" element={<Payment />} />
+                    <Route path="/checkout/confirmation" element={<OrderConfirmation />} />
+                    <Route path="/category" element={<SearchByCategory />} />
+                    <Route path="/garage" element={<Garage />} />
+                    <Route path="/document" element={<Document />} />
+                    <Route path="/myprofile" element={<MyProfile />} />
+                    <Route path="/myorder" element={<MyOrder />} />
+                    <Route path="/mywishlist" element={<MyWishlist />} />
+                    <Route path="/company_gst" element={<Company_GST />} />
+                    <Route path="/addresses" element={<Addresses />} />
+                    <Route path="/diagnostic" element={<DiagnosticForm />} />
+                    <Route path="/support" element={<ChatbotSupport />} />
+                    <Route path="/addresses" element={<Addresses />} />
+                    <Route path="/faq" element={<FAQ />} />
+                    <Route path="/return-policy" element={<ReturnPolicy />} />
 
-          <Route path="/catalog" element={<CatalogPage />} />
-          <Route path="/catalog/maintenance_service_parts/" element={<MaintenanceServiceParts />} />
-          <Route path="/catalog/filters/" element={<Filters />} />
-          <Route path="/catalog/windscreen_cleaning_system/" element={<Windscreen_Cleaning_System />} />
-          <Route path="/catalog/car_accessories/" element={<Car_Accessories />} />
-          <Route path="/catalog/lighting/" element={<Lighting />} />
-          <Route path="/catalog/control_cables/" element={<Control_Cables />} />
-          <Route path="/catalog/brakes/" element={<Break_System />} />
-          <Route path="/catalog/bearings/" element={<Bearing />} />
-          <Route path="/catalog/clutch/" element={<Clutch_System />} />
-          <Route path="/catalog/electric_components/" element={<Electric_Components />} />
-          <Route path="/catalog/engine/" element={<Engine />} />
-          <Route path="/catalog/cooling_system/" element={<Engine_Cooling_System />} />
-          <Route path="/catalog/exhaust/" element={<Exhaust_System />} />
-          <Route path="/catalog/air_conditioning/" element={<AirConditioning />} />
-          <Route path="/catalog/fuelsystem/" element={<Fuelsupply_System />} />
-          <Route path="/catalog/Gasket_SealingRings/" element={<Gasket_SealingRings />} />
-          <Route path="/catalog/ignition_glowplug/" element={<Ignition_Glowplug />} />
-          <Route path="/catalog/interior_comfort/" element={<Interior_Comfort />} />
-          <Route path="/catalog/body/" element={<Body />} />
-          <Route path="/catalog/oilsfluids/" element={<Oil_Fluids />} />
-          <Route path="/catalog/pipes_hoses/" element={<Pipes_Hoses />} />
-          <Route path="/catalog/repair_kits/" element={<RepairKits />} />
-          <Route path="/catalog/sensors_control_units/" element={<Sensors_ControlUnits />} />
-          <Route path="/catalog/steering/" element={<Steering />} />
-          <Route path="/catalog/suspension/" element={<Suspention_Arms />} />
-          <Route path="/catalog/towbar/" element={<TowbarParts />} />
-          <Route path="/catalog/transmission/" element={<Transmission />} />
-          <Route path="/catalog/trims/" element={<Trims />} />
-          <Route path="/catalog/tyres_and_alloys/" element={<Tyres_Alloys />} />
-          <Route path="/catalog/universal/" element={<Universal />} />
-          <Route path="/catalog/wheels/" element={<Wheels />} />
-          <Route path="/catalog/drive_belts/" element={<Belts_Chains_Rollers />} />
+                    <Route path="/catalog" element={<CatalogPage />} />
+                    <Route path="/catalog/maintenance_service_parts/" element={<MaintenanceServiceParts />} />
+                    <Route path="/catalog/4032-belts/" element={<Belt />} />
+                    <Route path="/catalog/4390-timing_belt/" element={<TimingBelt />} />
+                    <Route path="/catalog/4033-time_belt/" element={<TimingBelt />} />
+                    <Route path="/catalog/filters/" element={<Filters />} />
+                    <Route path="/catalog/windscreen_cleaning_system/" element={<Windscreen_Cleaning_System />} />
+                    <Route path="/catalog/car_accessories/" element={<Car_Accessories />} />
+                    <Route path="/catalog/lighting/" element={<Lighting />} />
+                    <Route path="/catalog/control_cables/" element={<Control_Cables />} />
+                    <Route path="/catalog/brakes/" element={<Break_System />} />
+                    <Route path="/catalog/bearings/" element={<Bearing />} />
+                    <Route path="/catalog/clutch/" element={<Clutch_System />} />
+                    <Route path="/catalog/electric_components/" element={<Electric_Components />} />
+                    <Route path="/catalog/engine/" element={<Engine />} />
+                    <Route path="/catalog/cooling_system/" element={<Engine_Cooling_System />} />
+                    <Route path="/catalog/exhaust/" element={<Exhaust_System />} />
+                    <Route path="/catalog/air_conditioning/" element={<AirConditioning />} />
+                    <Route path="/catalog/fuelsystem/" element={<Fuelsupply_System />} />
+                    <Route path="/catalog/Gasket_SealingRings/" element={<Gasket_SealingRings />} />
+                    <Route path="/catalog/ignition_glowplug/" element={<Ignition_Glowplug />} />
+                    <Route path="/catalog/interior_comfort/" element={<Interior_Comfort />} />
+                    <Route path="/catalog/body/" element={<Body />} />
+                    <Route path="/catalog/oilsfluids/" element={<Oil_Fluids />} />
+                    <Route path="/catalog/pipes_hoses/" element={<Pipes_Hoses />} />
+                    <Route path="/catalog/repair_kits/" element={<RepairKits />} />
+                    <Route path="/catalog/sensors_control_units/" element={<Sensors_ControlUnits />} />
+                    <Route path="/catalog/steering/" element={<Steering />} />
+                    <Route path="/catalog/suspension/" element={<Suspention_Arms />} />
+                    <Route path="/catalog/towbar/" element={<TowbarParts />} />
+                    <Route path="/catalog/transmission/" element={<Transmission />} />
+                    <Route path="/catalog/trims/" element={<Trims />} />
+                    <Route path="/catalog/tyres_and_alloys/" element={<Tyres_Alloys />} />
+                    <Route path="/catalog/universal/" element={<Universal />} />
+                    <Route path="/catalog/wheels/" element={<Wheels />} />
+                    <Route path="/catalog/drive_belts/" element={<Belts_Chains_Rollers />} />
 
 
-             <Route path="/vehicles/vehiclepage" element={<VehiclePage />} />
-             <Route path="/vehicles/maruti" element={<Maruti/>} />
-             <Route path="/vehicles/hyundai" element={<Hyundai/>} />
-             <Route path="/vehicles/mahindra" element={<Mahindra/>} />
-             <Route path="/vehicles/tata" element={<Tata/>} />
-             <Route path="/vehicles/chevrolet" element={<Chevrolet/>} />
-             <Route path="/vehicles/honda" element={<Honda/>} />
-             <Route path="/vehicles/skoda" element={<Skoda/>} />
-             <Route path="/vehicles/vw" element={<Vw/>} />
-              <Route path="/vehicles/toyota" element={<Toyota/>} />
-              <Route path="/vehicles/nissan" element={<Nissan/>} />
-              <Route path="/vehicles/renault" element={<Renault/>} />
-              <Route path="/vehicles/ford" element={<Ford/>} />
-              <Route path="/vehicles/fiat" element={<Fiat/>} />
-              <Route path="/vehicles/kia" element={<Kia/>} />
-              <Route path="/vehicles/ashok-layland" element={<AshokLayland/>} />
-              <Route path="/vehicles/audi" element={<Audi/>} />
-              <Route path="/vehicles/:maker/:modelId" element={<ModelDetail/>} />
+                    <Route path="/vehicles/vehiclepage" element={<VehiclePage />} />
+                    <Route path="/vehicles/maruti" element={<Maruti />} />
+                    <Route path="/vehicles/hyundai" element={<Hyundai />} />
+                    <Route path="/vehicles/mahindra" element={<Mahindra />} />
+                    <Route path="/vehicles/tata" element={<Tata />} />
+                    <Route path="/vehicles/chevrolet" element={<Chevrolet />} />
+                    <Route path="/vehicles/honda" element={<Honda />} />
+                    <Route path="/vehicles/skoda" element={<Skoda />} />
+                    <Route path="/vehicles/vw" element={<Vw />} />
+                    <Route path="/vehicles/toyota" element={<Toyota />} />
+                    <Route path="/vehicles/nissan" element={<Nissan />} />
+                    <Route path="/vehicles/renault" element={<Renault />} />
+                    <Route path="/vehicles/ford" element={<Ford />} />
+                    <Route path="/vehicles/fiat" element={<Fiat />} />
+                    <Route path="/vehicles/kia" element={<Kia />} />
+                    <Route path="/vehicles/ashok-layland" element={<AshokLayland />} />
+                    <Route path="/vehicles/audi" element={<Audi />} />
+                    <Route path="/vehicles/:maker/:modelId" element={<ModelDetail />} />
 
-          {/* Redirect landing after Oriparts back_url_pn */}
-          <Route path="/search/:pn" element={<PartSearchResults />} />
+                    {/* Redirect landing after Oriparts back_url_pn */}
+                    <Route path="/search/:pn" element={<PartSearchResults />} />
 
-          {/* Product detail page for back_url_id */}
-          <Route path="/catalog/part-p-:itemId" element={<ProductDetail />} />
-          <Route path="/catalog/part-p-:itemId/" element={<ProductDetail />} />
+                    {/* Product detail page for back_url_id */}
+                    <Route path="/catalog/part-p-:itemId" element={<ProductDetail />} />
+                    <Route path="/catalog/part-p-:itemId/" element={<ProductDetail />} />
 
-          {/* Vehicle-based search landing */}
-          <Route path="/vehicle-search" element={<VehicleSearchResults />} />
-          <Route path="/oem-catalogue" element={<OEMCatalogue />} />
-          <Route path="/vehicles" element={<VehicleMaker />} />
+                    {/* Vehicle-based search landing */}
+                    <Route path="/vehicle-search" element={<VehicleSearchResults />} />
+                    <Route path="/oem-catalogue" element={<OEMCatalogue />} />
+                    <Route path="/vehicles" element={<VehicleMaker />} />
 
-          {/* Service Booking */}
-          <Route path="/service/booking" element={<ServiceBooking />} />
-          <Route path="/service/job/:jobId" element={<JobDetails />} />
-          <Route path="/service/job/:jobId/jobcard" element={<VehicleJobCard />} />
-        </Routes>
-      </Layout>
-      </Router>
-      </CartProvider>
+                    {/* Service Booking */}
+                    <Route path="/service/booking" element={<ServiceBooking />} />
+                    <Route path="/service/job/:jobId" element={<JobDetails />} />
+                    <Route path="/service/job/:jobId/jobcard" element={<VehicleJobCard />} />
+                  </Routes>
+                </Layout>
+              </Router>
+            </CartProvider>
           </EscrowProvider>
         </JobProvider>
       </VehicleProvider>

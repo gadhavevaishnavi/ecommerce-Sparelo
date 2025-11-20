@@ -131,117 +131,119 @@ export const Header = () => {
       }}
     >
       {/* ===== MAIN HEADER ===== */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex flex-wrap items-center justify-between gap-2">
-        {/* Logo & Departments */}
-        <div className="flex items-center gap-2">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <img
-              onClick={goToHomePage}
-              src={logo3}
-              alt="Logo"
-              className="h-10 w-auto cursor-pointer drop-shadow-lg"
-            />
-          </motion.div>
-
-        </div>
-
-        {/* Search Bar with Category & Vehicle Selector */}
-        <div className="flex items-center bg-white rounded-xl shadow-lg overflow-hidden flex-1 max-w-2xl border border-gray-200">
-          {/* Category Selector */}
-          <div className="relative">
-            <select
-              className="px-3 py-2 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 text-xs outline-none border-r border-gray-300 cursor-pointer appearance-none pr-6"
-              value={selectedCategory}
-              onChange={handleSelectChange}
-            >
-              {categories.map((category) => (
-                <option key={category.value} value={category.value} data-href={category.href}>
-                  {category.label}
-                </option>
-              ))}
-            </select>
-            <FaChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none text-xs" />
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3">
+        {/* Top Row: Logo, Actions, Menu */}
+        <div className="flex items-center justify-between gap-2 sm:gap-4 mb-2 sm:mb-0">
+          {/* Logo */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <img
+                onClick={goToHomePage}
+                src={logo3}
+                alt="Logo"
+                className="h-8 sm:h-10 w-auto cursor-pointer drop-shadow-lg"
+              />
+            </motion.div>
           </div>
 
-          {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search by number plate or part number..."
-            className="flex-1 px-3 py-2 bg-transparent text-gray-700 text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            value={headerPN}
-            onChange={(e) => setHeaderPN(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-          />
-
-          {/* Search Button */}
-          <motion.button
-            onClick={handleSearch}
-            className="bg-gradient-to-r from-red-500 to-orange-500 text-gray-700 px-4 py-2 hover:from-red-600 hover:to-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg"
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 10px 25px -5px rgba(239, 68, 68, 0.4)",
-            }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FaSearch className="text-sm" />
-          </motion.button>
-
-                  </div>
-
-        {/* 360 Degree Upload Button */}
-        <motion.button
-          onClick={() => setShow360UploadModal(true)}
-          className="relative px-3 py-1.5 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-all duration-200 flex items-center gap-1.5 text-gray-700"
-                        whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          title="Upload  Image/Video"
-        >
-          <div className="relative">
-            <FaCamera className="text-sm text-red-700" />
-            <span className="absolute -top-1 -right-1 text-xs font-bold text-gray-700">+</span>
-                        </div>
-          <span className="text-xs font-medium">Upload Image/Video</span>
-                    </motion.button>
-
-        {/* User Actions */}
-        <div className="flex items-center gap-2">
-          {/* Wishlist */}
-          <motion.button
-            onClick={goToWishlist}
-            className="relative"
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <FaHeart className="text-xl text-red-900" />
-            <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 text-gray-700 text-xs rounded-full w-4 h-4 flex items-center justify-center shadow-lg text-[10px]">
-              0
-            </span>
-          </motion.button>
-
-
-          {/* Cart */}
+          {/* User Actions - Mobile */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {/* Wishlist */}
             <motion.button
-              onClick={goToCart}
-            className="relative cursor-pointer"
+              onClick={goToWishlist}
+              className="relative"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
-              <FaShoppingCart className="text-xl text-red-900" />
+              <FaHeart className="text-base sm:text-lg md:text-xl text-red-900" />
+              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[8px] sm:text-xs rounded-full w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center shadow-lg">
+                0
+              </span>
+            </motion.button>
+
+            {/* Cart */}
+            <motion.button
+              onClick={goToCart}
+              className="relative cursor-pointer"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <FaShoppingCart className="text-base sm:text-lg md:text-xl text-red-900" />
               {getTotalItems() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 text-gray-700 text-xs rounded-full w-4 h-4 flex items-center justify-center shadow-lg text-[10px]">
+                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[7px] sm:text-xs rounded-full w-3 h-3 sm:w-4 sm:h-4 flex items-center justify-center shadow-lg">
                   {getTotalItems()}
                 </span>
               )}
             </motion.button>
 
-          {/* Sidebar button */}
-          <button
-            onClick={() => setIsSidebarOpen(true)}
-            className="text-2xl text-blue-900 hover:scale-110 transition-transform"
-          >
-            <IoReorderThreeOutline />
-          </button>
+            {/* Sidebar button */}
+            <button
+              onClick={() => setIsSidebarOpen(true)}
+              className="text-lg sm:text-xl md:text-2xl text-blue-900 hover:scale-110 transition-transform"
+            >
+              <IoReorderThreeOutline />
+            </button>
+          </div>
+        </div>
 
+        {/* Search Bar Row - Full Width on Mobile */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+          {/* Search Bar with Category & Vehicle Selector */}
+          <div className="flex items-center bg-white rounded-lg sm:rounded-xl shadow-md sm:shadow-lg overflow-hidden flex-1 border border-gray-200">
+            {/* Category Selector */}
+            <div className="relative flex-shrink-0">
+              <select
+                className="px-2 sm:px-3 py-2 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 text-[7px] sm:text-xs outline-none border-r border-gray-300 cursor-pointer appearance-none pr-5 sm:pr-6"
+                value={selectedCategory}
+                onChange={handleSelectChange}
+              >
+                {categories.map((category) => (
+                  <option key={category.value} value={category.value} data-href={category.href}>
+                    {category.label.length > 15 ? category.label.substring(0, 15) + '...' : category.label}
+                  </option>
+                ))}
+              </select>
+              <FaChevronDown className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none text-[8px] sm:text-xs" />
+            </div>
+
+            {/* Search Input */}
+            <input
+              type="text"
+              placeholder="Search by part number..."
+              className="flex-1 px-2 sm:px-3 py-2 bg-transparent text-gray-700 text-[8px] sm:text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              value={headerPN}
+              onChange={(e) => setHeaderPN(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            />
+
+            {/* Search Button */}
+            <motion.button
+              onClick={handleSearch}
+              className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 sm:px-4 py-2 hover:from-red-600 hover:to-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg flex-shrink-0"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: "0 10px 25px -5px rgba(239, 68, 68, 0.4)",
+              }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaSearch className="text-[10px] sm:text-sm" />
+            </motion.button>
+          </div>
+
+          {/* 360 Degree Upload Button - Hidden on very small screens */}
+          <motion.button
+            onClick={() => setShow360UploadModal(true)}
+            className="hidden sm:flex relative px-2 sm:px-3 py-1.5 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-all duration-200 items-center gap-1.5 text-gray-700 flex-shrink-0"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            title="Upload Image/Video"
+          >
+            <div className="relative">
+              <FaCamera className="text-xs sm:text-sm text-red-700" />
+              <span className="absolute -top-1 -right-1 text-[10px] font-bold text-gray-700">+</span>
+            </div>
+            <span className="text-[8px] sm:text-xs font-medium hidden md:inline">Upload</span>
+          </motion.button>
         </div>
       </div>
 
@@ -270,7 +272,7 @@ export const Header = () => {
                 <div className="p-4 md:p-5">
                   {/* Header */}
                   <div className="flex items-center justify-between mb-4">
-                    <h2 className="text-lg md:text-xl font-bold text-gray-900">Upload 360° Content</h2>
+                    <h2 className="text-sm md:text-xl font-bold text-gray-900">Upload 360° Content</h2>
                     <button
                       onClick={() => setShow360UploadModal(false)}
                       className="text-gray-400 hover:text-gray-600 transition-colors p-1"
@@ -313,10 +315,10 @@ export const Header = () => {
                       ) : (
                         <FaVideo className="text-3xl md:text-4xl text-gray-400 mb-2" />
                       )}
-                      <h3 className="text-sm md:text-base font-semibold text-gray-900 mb-1">
+                      <h3 className="text-xs md:text-base font-semibold text-gray-900 mb-1">
                         Upload {uploadType === 'photo' ? 'Image' : '360° Video'}
                       </h3>
-                      <p className="text-xs text-gray-600 mb-3">
+                      <p className="text-[10px] text-gray-600 mb-3">
                         Drag and drop or click to browse
                       </p>
                       <input

@@ -107,15 +107,15 @@ const Engine = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-white py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
         <Breadcrumbs />
 
-        <div className="mb-8">
-          <h1 className="text-xl font-bold text-gray-800 mb-2">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h1 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-2">
             Engine Parts
           </h1>
-          <p className="text-gray-600">
+          <p className="text-xs sm:text-sm md:text-base text-gray-600">
             Explore a complete range of engine components — cylinder heads, gaskets,
             pistons, fuel systems, and more.
           </p>
@@ -131,23 +131,28 @@ const Engine = () => {
           categoryName="Engine"
         />
 
-        <div className="flex gap-6">
-          <CatalogueSidebar />
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
+          <div className="order-2 lg:order-1">
+            <CatalogueSidebar />
+          </div>
 
-          <div className="flex-1">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 my-8">
+          <div className="flex-1 order-1 lg:order-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 my-4 sm:my-6 md:my-8">
               {filteredProducts.map((product) => (
                 <Link
                   key={product.id}
                   to={product.link}
-                  className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
+                  className="bg-white p-2 sm:p-3 rounded-lg shadow hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
                 >
                   <img
                     src={product.img}
                     alt={product.name}
-                    className="w-14 h-14 object-cover rounded-md mb-2 mx-auto"
+                    className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-md mb-2 mx-auto"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/100x100?text=' + product.name;
+                    }}
                   />
-                  <span className="text-gray-800 font-medium text-xs">{product.name}</span>
+                  <span className="text-gray-800 font-medium text-[10px] sm:text-xs line-clamp-2">{product.name}</span>
                 </Link>
               ))}
             </div>

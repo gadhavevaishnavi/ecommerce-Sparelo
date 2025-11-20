@@ -7,8 +7,14 @@ const CatalogueSidebar = () => {
   const { vehicles } = useVehicle();
   const [selectedMaker, setSelectedMaker] = useState("");
   const [isOpen, setIsOpen] = useState(true);
-  const [expandedCategories, setExpandedCategories] = useState({});
   const location = useLocation();
+  
+  // Auto-expand Maintenance Service Parts if on Belt or Timing Belt page
+  const isBeltPage = location.pathname === "/catalog/4032-belts/";
+  const isTimingBeltPage = location.pathname === "/catalog/4390-timing_belt/" || location.pathname === "/catalog/4033-time_belt/";
+  const [expandedCategories, setExpandedCategories] = useState({
+    "Maintenance Service Parts": isBeltPage || isTimingBeltPage ? true : false
+  });
 
   // Get car image from vehicle data
   const getCarImage = (make, model) => {
@@ -32,7 +38,28 @@ const CatalogueSidebar = () => {
 
   // Categories with sub-categories structure
   const categories = [
-    { name: "Maintenance Service Parts", link: "/catalog/maintenance_service_parts/" },
+    { 
+      name: "Maintenance Service Parts", 
+      link: "/catalog/maintenance_service_parts/",
+      subCategories: [
+        {
+          name: "Belt",
+          link: "/catalog/4032-belts/",
+          subItems: [
+            { name: "Timing Belt", link: "/catalog/4390-timing_belt/" },
+            { name: "Time Belt", link: "/catalog/4033-time_belt/" },
+            { name: "Timing Belt Kit", link: "/catalog/4393-timing_belt_kit/" },
+            { name: "V-belt", link: "/catalog/3720-v_belt/" },
+          ]
+        },
+        { name: "Brake", link: "/catalog/3713-brakes/" },
+        { name: "Catalogue Service Manual", link: "/catalog/4054-catalogues_service_manuals/" },
+        { name: "Clutch", link: "/catalog/4027-clutch/" },
+        { name: "Engine Oil", link: "/catalog/5193-engine_oil/" },
+        { name: "Filter", link: "/catalog/3625-filters/" },
+        { name: "Glow Plug", link: "/catalog/4385-glow_plug/" },
+      ]
+    },
     { name: "Brake", link: "/catalog/brakes/" },
     { name: "Air Conditioning", link: "/catalog/air_conditioning/" },
     { name: "Body", link: "/catalog/body/" },
@@ -91,15 +118,15 @@ const CatalogueSidebar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <div className="w-full lg:w-64 flex-shrink-0 mb-6 lg:mb-0">
-      <div className="bg-white dark:bg-gray-900 p-4 sm:p-5 rounded-lg sm:rounded-xl shadow-sm border border-gray-100 sticky top-20">
+    <div className="hidden lg:block w-full lg:w-64 flex-shrink-0 mb-4 sm:mb-6 lg:mb-0">
+      <div className="bg-white dark:bg-gray-900 p-3 sm:p-4 md:p-5 rounded-lg sm:rounded-xl shadow-sm border border-gray-100 sticky top-16 sm:top-20">
 
         {/* Header */}
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
-          <h3 className="text-sm sm:text-base font-semibold text-gray-800 dark:text-gray-100">Filters</h3>
+        <div className="flex items-center justify-between mb-3 sm:mb-4 pb-2 sm:pb-3 border-b border-gray-200">
+          <h3 className="text-[10px] sm:text-xs md:text-sm lg:text-base font-semibold text-gray-800 dark:text-gray-100">Filters</h3>
           <button 
             onClick={handleReset}
-            className="text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium"
+            className="text-[9px] sm:text-[10px] md:text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 font-medium"
           >
             RESET
           </button>
@@ -118,7 +145,7 @@ const CatalogueSidebar = () => {
             <span className="font-semibold text-gray-800 dark:text-gray-100">
               Garage
             </span>
-            <span className="text-sm text-blue-600 dark:text-blue-400">
+            <span className="text-xs sm:text-sm text-blue-600 dark:text-blue-400">
               {isOpen ? "−" : "+"}
             </span>
           </div>
@@ -127,12 +154,12 @@ const CatalogueSidebar = () => {
             <div className="p-3 space-y-3">
               {/* Vehicles from Garage */}
               {vehicles.length > 0 ? (
-                <div className="grid grid-cols-3 gap-2 mb-3">
+                <div className="grid grid-cols-3 sm:grid-cols-3 gap-1.5 sm:gap-2 mb-3">
                   {vehicles.slice(0, 6).map((vehicle) => (
                     <Link
                       key={vehicle.id}
                       to={`/catalog?maker=${encodeURIComponent(vehicle.make)}&model=${encodeURIComponent(vehicle.model)}&year=${vehicle.year}`}
-                      className="flex flex-col items-center p-2 bg-white rounded-md hover:bg-gray-50 transition-colors border border-gray-200"
+                      className="flex flex-col items-center p-1.5 sm:p-2 bg-white rounded-md hover:bg-gray-50 transition-colors border border-gray-200"
                       title={`${vehicle.make} ${vehicle.model} ${vehicle.year}`}
                     >
                       <img
@@ -143,7 +170,7 @@ const CatalogueSidebar = () => {
                           e.target.src = 'https://via.placeholder.com/100x60?text=Car';
                         }}
                       />
-                      <span className="text-[10px] text-gray-700 font-medium text-center line-clamp-1">
+                      <span className="text-[8px] sm:text-[9px] md:text-[10px] text-gray-700 font-medium text-center line-clamp-1">
                         {vehicle.model}
                       </span>
                     </Link>
@@ -151,14 +178,14 @@ const CatalogueSidebar = () => {
                 </div>
               ) : (
                 <div className="text-center py-2 mb-3">
-                  <p className="text-[10px] text-gray-500">No vehicles in garage</p>
+                  <p className="text-[9px] sm:text-[10px] text-gray-500">No vehicles in garage</p>
                 </div>
               )}
 
               <form className="space-y-1.5">
                 <label
                   htmlFor="carMaker"
-                  className="block text-xs font-medium text-gray-700 dark:text-gray-300"
+                  className="block text-[10px] sm:text-xs font-medium text-gray-700 dark:text-gray-300"
                 >
                   Choose car maker
                 </label>
@@ -166,7 +193,7 @@ const CatalogueSidebar = () => {
                   id="carMaker"
                   value={selectedMaker}
                   onChange={(e) => setSelectedMaker(e.target.value)}
-                  className="form-select w-full p-1.5 border rounded-md text-xs dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
+                  className="form-select w-full p-1.5 border rounded-md text-[10px] sm:text-xs dark:bg-gray-800 dark:border-gray-700 dark:text-gray-100"
                 >
                   <option value="">Choose car maker</option>
                   <optgroup label="Popular carmakers">
@@ -224,9 +251,16 @@ const CatalogueSidebar = () => {
                         {subCat.subItems ? (
                           // Nested sub-category (e.g., Belt with sub-items)
                           <div>
-                            <div className="text-[10px] font-medium text-gray-700 px-2 py-1 mb-0.5">
+                            <Link
+                              to={subCat.link}
+                              className={`block text-[10px] font-medium px-2 py-1 mb-0.5 rounded transition-all duration-200 ${
+                                isActive(subCat.link)
+                                  ? "text-blue-600 bg-blue-50"
+                                  : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
+                              }`}
+                            >
                               {subCat.name}
-                            </div>
+                            </Link>
                             <div className="ml-2 space-y-0.5">
                               {subCat.subItems.map((item) => (
                                 <Link

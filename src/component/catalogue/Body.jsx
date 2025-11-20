@@ -90,15 +90,15 @@ const bodyPartsCategories = [
   };
 
   return (
-    <div className="min-h-screen bg-white py-8">
-      <div className="max-w-7xl mx-auto px-4">
+    <div className="min-h-screen bg-white py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6">
         <Breadcrumbs />
 
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+        <div className="mb-4 sm:mb-6 md:mb-8">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 mb-2">
             Body Parts
           </h1>
-          <p className="text-gray-600">
+          <p className="text-xs sm:text-sm md:text-base text-gray-600">
             Discover a wide range of body parts for your vehicle, including bumpers, doors, and more.
           </p>
         </div>
@@ -113,24 +113,29 @@ const bodyPartsCategories = [
           categoryName="Body"
         />
 
-        <div className="flex gap-6">
-          <CatalogueSidebar />
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
+          <div className="order-2 lg:order-1">
+            <CatalogueSidebar />
+          </div>
 
-          <div className="flex-1">
+          <div className="flex-1 order-1 lg:order-2">
             {/* ✅ Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 my-8">
-              {filteredProducts.map((product) => (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 md:gap-6 my-4 sm:my-6 md:my-8">
+              {filteredProducts.map((product, index) => (
                 <Link
-                  key={product.id}
+                  key={index}
                   to={product.link}
-                  className="bg-white p-2 rounded-lg shadow hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
+                  className="bg-white p-2 sm:p-3 rounded-lg shadow hover:shadow-lg transition-all duration-200 flex flex-col items-center text-center"
                 >
                   <img
                     src={product.img}
                     alt={product.name}
-                    className="w-14 h-14 object-cover rounded-md mb-2 mx-auto"
+                    className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-md mb-2 mx-auto"
+                    onError={(e) => {
+                      e.target.src = 'https://via.placeholder.com/100x100?text=' + product.name;
+                    }}
                   />
-                  <span className="text-gray-800 font-medium text-xs">
+                  <span className="text-gray-800 font-medium text-[10px] sm:text-xs line-clamp-2">
                     {product.name}
                   </span>
                 </Link>
@@ -138,16 +143,16 @@ const bodyPartsCategories = [
             </div>
 
             {/* ✅ SEO Section */}
-            <section className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-4 md:p-6 rounded-2xl shadow-md transition-all duration-300 my-10">
+            <section className="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 p-3 sm:p-4 md:p-6 rounded-xl sm:rounded-2xl shadow-md transition-all duration-300 my-6 sm:my-8 md:my-10">
               <div
-                className={`space-y-4 overflow-hidden transition-all duration-500 ${expanded ? "max-h-full" : "max-h-[400px]"
+                className={`space-y-3 sm:space-y-4 overflow-hidden transition-all duration-500 ${expanded ? "max-h-full" : "max-h-[300px] sm:max-h-[400px]"
                   }`}
               >
-                <h2 className="text-lg font-bold text-red-600">
+                <h2 className="text-base sm:text-lg font-bold text-red-600">
                   A Meaning of a Car Body and Body Parts of Car
                 </h2>
 
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm">
                   A car enthusiast can be sure that the motor, transmission or brakes are the most essential
                   components of an automobile. But the car body – the component where all the other
                   components and systems are installed and fixed – still remains the main framework of a
@@ -155,20 +160,20 @@ const bodyPartsCategories = [
                   from external impacts.
                 </p>
 
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm">
                   Exterior is not the least thing to care about. A new automobile attracts attention with
                   flawless lines, curves, and a shiny body surface. A well-maintained car looks elegant and
                   creates a positive impression about its owner.
                 </p>
 
-                <p className="text-sm">
+                <p className="text-xs sm:text-sm">
                   Yet, dents, scratches, or misaligned doors signal neglect or poor maintenance — sometimes
-                  even danger. That’s why maintaining and updating your car body is essential.
+                  even danger. That's why maintaining and updating your car body is essential.
                 </p>
 
-                <p className="text-sm">The main auto body parts include:</p>
+                <p className="text-xs sm:text-sm">The main auto body parts include:</p>
 
-                <ul className="list-disc list-inside space-y-2 pl-4">
+                <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 pl-2 sm:pl-4 text-xs sm:text-sm">
                   <li>A boot lid and a hood</li>
                   <li>Front and rear splashers</li>
                   <li>Body sills</li>
@@ -176,23 +181,23 @@ const bodyPartsCategories = [
                   <li>Doors, including locks and door handles</li>
                 </ul>
 
-                <p>
+                <p className="text-xs sm:text-sm">
                   Additionally, body parts include optics covers, mudguards, spoilers, and protective
                   elements for the gearbox and motor.
                 </p>
 
-                <h2 className="text-lg font-bold text-red-600">Why Do You Need Car Body Parts?</h2>
+                <h2 className="text-base sm:text-lg font-bold text-red-600">Why Do You Need Car Body Parts?</h2>
 
-                <p className="text-sm">Drivers usually buy body parts for two main purposes:</p>
+                <p className="text-xs sm:text-sm">Drivers usually buy body parts for two main purposes:</p>
 
-                <ul className="list-disc list-inside space-y-2 pl-4">
+                <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 pl-2 sm:pl-4 text-xs sm:text-sm">
                   <li>To repair or replace damaged parts</li>
                   <li>To perform car tuning or modification</li>
                 </ul>
 
-                <p className="text-sm">The most common reasons for replacement include:</p>
+                <p className="text-xs sm:text-sm">The most common reasons for replacement include:</p>
 
-                <ul className="list-disc list-inside space-y-2 pl-4">
+                <ul className="list-disc list-inside space-y-1.5 sm:space-y-2 pl-2 sm:pl-4 text-xs sm:text-sm">
                   <li>Damage from accidents or vandalism</li>
                   <li>Wear and tear due to long-term use</li>
                   <li>High-speed driving on rough roads</li>
@@ -200,34 +205,34 @@ const bodyPartsCategories = [
                   <li>Poor-quality or unprofessional repairs</li>
                 </ul>
 
-                <p>
-                  A skilled mechanic and quality body parts can restore your car perfectly. It’s always best
+                <p className="text-xs sm:text-sm">
+                  A skilled mechanic and quality body parts can restore your car perfectly. It's always best
                   to choose original or licensed parts for reliability, though refurbished OEM parts can be a
                   budget-friendly alternative.
                 </p>
 
-                <p>
+                <p className="text-xs sm:text-sm">
                   Tuning allows improving aerodynamics, control, and aesthetics — often using lightweight
                   materials like fiberglass or carbon fiber for spoilers, arches, and ground effects.
                 </p>
 
-                <h2 className="text-lg font-bold text-red-600">
+                <h2 className="text-base sm:text-lg font-bold text-red-600">
                   Where to Buy Car Body Parts and Accessories Online?
                 </h2>
 
-                <p>
+                <p className="text-xs sm:text-sm">
                   You can quickly buy the required spare parts at our online store at the best prices. Our
                   detailed price list with product images makes selection easy. We offer a wide range of
-                  reliable, high-quality car body parts, absorbers, and accessories to enhance your vehicle’s
+                  reliable, high-quality car body parts, absorbers, and accessories to enhance your vehicle's
                   performance and appearance.
                 </p>
               </div>
 
               {/* View More / View Less Button */}
-              <div className="seo-text__action mt-6 text-center">
+              <div className="seo-text__action mt-4 sm:mt-6 text-center">
                 <button
                   onClick={() => setExpanded(!expanded)}
-                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-all duration-300"
+                  className="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm px-4 sm:px-6 py-2 rounded-lg transition-all duration-300"
                 >
                   {expanded ? "View Less" : "View More"}
                 </button>
