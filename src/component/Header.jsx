@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  FaCar,
   FaHeart,
   FaShoppingCart,
   FaSearch,
@@ -10,6 +9,12 @@ import {
   FaVideo,
   FaTimes,
   FaUpload,
+  FaBell,
+  FaWallet,
+  FaMapMarkerAlt,
+  FaChevronUp,
+  FaMicrophone,
+  FaCrown,
 } from "react-icons/fa";
 import { IoReorderThreeOutline } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,6 +33,13 @@ export const Header = () => {
   const [uploadType, setUploadType] = useState('photo'); // 'photo' or 'video'
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [selectedLocation, setSelectedLocation] = useState({
+    type: "Home",
+    address: "A Block Bol, Swastik Residacy"
+  });
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [membershipType, setMembershipType] = useState("Gold"); // "Gold" or "Silver"
+  const [notificationCount, setNotificationCount] = useState(3);
 
   // Scroll effect for header - hide on scroll down, show on scroll up
   useEffect(() => {
@@ -114,6 +126,10 @@ export const Header = () => {
   const goToWishlist = () => navigate("/mywishlist");
   const goToCart = () => navigate("/cart");
   const goToHomePage = () => navigate("/");
+  const handleVoiceSearch = () => {
+    // Voice search functionality
+    alert("Voice search functionality will be implemented");
+  };
 
   return (
     <motion.header
@@ -132,120 +148,223 @@ export const Header = () => {
     >
       {/* ===== MAIN HEADER ===== */}
       <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 py-2 sm:py-3">
-        {/* Top Row: Logo, Actions, Menu */}
-        <div className="flex items-center justify-between gap-2 sm:gap-4 mb-2 sm:mb-0">
-          {/* Logo */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+        {/* Top Row: Logo + Location on Left, Icons on Right */}
+        <div className="flex items-center justify-between gap-2 sm:gap-4 mb-2 sm:mb-3">
+          {/* Left Side: Logo and Location */}
+          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+            {/* Logo */}
+            <motion.div 
+              onClick={goToHomePage}
+              className="flex items-center cursor-pointer"
+              whileHover={{ scale: 1.05 }} 
+              whileTap={{ scale: 0.95 }}
+            >
               <img
-                onClick={goToHomePage}
                 src={logo3}
-                alt="Logo"
-                className="h-8 sm:h-10 w-auto cursor-pointer drop-shadow-lg"
+                alt="Sparelo Logo"
+                className="h-8 sm:h-10 md:h-12 w-auto"
               />
             </motion.div>
+
+            {/* Location Display - Beside Logo */}
+            <div className="flex items-start gap-1 sm:gap-1.5 flex-shrink-0">
+              <button
+                onClick={() => setShowLocationModal(true)}
+                className="flex items-start gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-1 hover:bg-gray-50 transition-colors rounded-md text-left"
+              >
+                <FaMapMarkerAlt className="text-[9px] sm:text-[10px] text-red-600 flex-shrink-0 mt-0.5" />
+                <div className="text-left min-w-0">
+                  <p className="text-[7px] sm:text-[8px] md:text-[9px] font-medium text-gray-700 whitespace-nowrap">
+                    location {selectedLocation.type}
+                  </p>
+                  <p className="text-[6px] sm:text-[7px] md:text-[8px] text-gray-600 whitespace-nowrap">
+                    {selectedLocation.address}
+                  </p>
+                </div>
+              </button>
+            </div>
           </div>
 
-          {/* User Actions - Mobile */}
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            {/* Wishlist */}
+          {/* Right Side Icons: Notifications, Membership, Wallet, Cart, Menu */}
+          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 flex-shrink-0">
+            {/* Notifications */}
             <motion.button
-              onClick={goToWishlist}
-              className="relative"
+              onClick={() => navigate("/notifications")}
+              className="relative p-1.5 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              title="Notifications"
             >
-              <FaHeart className="text-base sm:text-lg md:text-xl text-red-900" />
-              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[8px] sm:text-xs rounded-full w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center shadow-lg">
-                0
-              </span>
-            </motion.button>
-
-            {/* Cart */}
-            <motion.button
-              onClick={goToCart}
-              className="relative cursor-pointer"
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-            >
-              <FaShoppingCart className="text-base sm:text-lg md:text-xl text-red-900" />
-              {getTotalItems() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-[7px] sm:text-xs rounded-full w-3 h-3 sm:w-4 sm:h-4 flex items-center justify-center shadow-lg">
-                  {getTotalItems()}
+              <FaBell className="text-base sm:text-lg md:text-xl text-gray-700" />
+              {notificationCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] sm:text-[10px] rounded-full w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center font-bold shadow-md">
+                  {notificationCount > 9 ? '9+' : notificationCount}
                 </span>
               )}
             </motion.button>
 
-            {/* Sidebar button */}
+            {/* Membership Badge */}
+            <motion.button
+              onClick={() => navigate("/membership")}
+              className={`relative px-2 sm:px-2.5 md:px-3 py-1 sm:py-1.5 rounded-md transition-all flex items-center gap-1 sm:gap-1.5 shadow-sm hover:shadow-md ${
+                membershipType === "Gold"
+                  ? "bg-yellow-50 hover:bg-yellow-100 border border-yellow-200"
+                  : "bg-gray-100 hover:bg-gray-200 border border-gray-300"
+              }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title={`${membershipType} Membership`}
+            >
+              <FaCrown className={`text-[10px] sm:text-xs md:text-sm flex-shrink-0 ${
+                membershipType === "Gold" ? "text-yellow-600" : "text-gray-600"
+              }`} />
+              <span className={`text-[8px] sm:text-[9px] md:text-[10px] font-semibold whitespace-nowrap ${
+                membershipType === "Gold" ? "text-gray-900" : "text-gray-700"
+              }`}>
+                <span className="hidden sm:inline">{membershipType === "Gold" ? "Gold" : "Silver"} Membership</span>
+                <span className="sm:hidden">{membershipType === "Gold" ? "Gold" : "Silver"}</span>
+              </span>
+            </motion.button>
+
+            {/* Wallet */}
+            <motion.button
+              onClick={() => navigate("/wallet")}
+              className="relative px-2 sm:px-2.5 md:px-3 py-1 sm:py-1.5 bg-white rounded-md shadow-sm hover:shadow-md transition-all flex items-center gap-1 sm:gap-1.5 border border-gray-200 hover:border-gray-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              title="Wallet"
+            >
+              <FaWallet className="text-[10px] sm:text-xs md:text-sm text-gray-700 flex-shrink-0" />
+              <span className="text-[8px] sm:text-[9px] md:text-[10px] font-semibold text-gray-700 whitespace-nowrap">
+                Wallet
+              </span>
+            </motion.button>
+
+            {/* Cart - Hidden on mobile, shown on larger screens */}
+            <motion.button
+              onClick={goToCart}
+              className="hidden sm:flex relative p-1.5 sm:p-2 hover:bg-gray-100 rounded-full transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              title="Cart"
+            >
+              <FaShoppingCart className="text-base sm:text-lg md:text-xl text-gray-700" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-[8px] sm:text-[10px] rounded-full w-3.5 h-3.5 sm:w-4 sm:h-4 flex items-center justify-center font-bold shadow-md">
+                  {getTotalItems() > 9 ? '9+' : getTotalItems()}
+                </span>
+              )}
+            </motion.button>
+
+            {/* Sidebar/Menu button */}
             <button
               onClick={() => setIsSidebarOpen(true)}
-              className="text-lg sm:text-xl md:text-2xl text-blue-900 hover:scale-110 transition-transform"
+              className="p-1.5 sm:p-2 text-gray-700 hover:bg-gray-100 rounded-full transition-colors"
+              title="Menu"
             >
-              <IoReorderThreeOutline />
+              <IoReorderThreeOutline className="text-lg sm:text-xl md:text-2xl" />
             </button>
           </div>
         </div>
 
-        {/* Search Bar Row - Full Width on Mobile */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
-          {/* Search Bar with Category & Vehicle Selector */}
-          <div className="flex items-center bg-white rounded-lg sm:rounded-xl shadow-md sm:shadow-lg overflow-hidden flex-1 border border-gray-200">
-            {/* Category Selector */}
-            <div className="relative flex-shrink-0">
-              <select
-                className="px-2 sm:px-3 py-2 bg-gradient-to-r from-gray-50 to-gray-100 text-gray-700 text-[7px] sm:text-xs outline-none border-r border-gray-300 cursor-pointer appearance-none pr-5 sm:pr-6"
-                value={selectedCategory}
-                onChange={handleSelectChange}
-              >
-                {categories.map((category) => (
-                  <option key={category.value} value={category.value} data-href={category.href}>
-                    {category.label.length > 15 ? category.label.substring(0, 15) + '...' : category.label}
-                  </option>
-                ))}
-              </select>
-              <FaChevronDown className="absolute right-1 sm:right-2 top-1/2 transform -translate-y-1/2 text-gray-500 pointer-events-none text-[8px] sm:text-xs" />
-            </div>
-
+        {/* Search Bar Row - Below Logo and Location */}
+        <div className="flex items-center gap-2">
+          {/* Search Bar - Positioned between location and notifications */}
+          <div className="flex items-center bg-gray-50 rounded-md shadow-sm border border-gray-200 overflow-hidden flex-1 max-w-md sm:max-w-lg md:max-w-xl ml-20 sm:ml-28 md:ml-36">
             {/* Search Input */}
             <input
               type="text"
-              placeholder="Search by part number..."
-              className="flex-1 px-2 sm:px-3 py-2 bg-transparent text-gray-700 text-[8px] sm:text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+              placeholder="search..."
+              className="flex-1 px-2 sm:px-2.5 py-2 sm:py-1.5 bg-transparent text-gray-700 text-[8px] sm:text-[8px] md:text-[9px] focus:outline-none"
               value={headerPN}
               onChange={(e) => setHeaderPN(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             />
 
-            {/* Search Button */}
+            {/* Mic Icon for Voice Search */}
             <motion.button
-              onClick={handleSearch}
-              className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-3 sm:px-4 py-2 hover:from-red-600 hover:to-orange-600 transition-all duration-300 flex items-center justify-center shadow-lg flex-shrink-0"
-              whileHover={{
-                scale: 1.05,
-                boxShadow: "0 10px 25px -5px rgba(239, 68, 68, 0.4)",
-              }}
-              whileTap={{ scale: 0.95 }}
+              onClick={handleVoiceSearch}
+              className="px-1.5 sm:px-2 py-1 sm:py-1.5 text-gray-600 hover:text-red-600 hover:bg-gray-100 transition-colors flex items-center justify-center border-l border-gray-200 flex-shrink-0"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              title="Voice Search"
             >
-              <FaSearch className="text-[10px] sm:text-sm" />
+              <FaMicrophone className="text-[8px] sm:text-[9px] md:text-[10px]" />
             </motion.button>
           </div>
 
-          {/* 360 Degree Upload Button - Hidden on very small screens */}
+          {/* Cart Button - Mobile Only */}
           <motion.button
-            onClick={() => setShow360UploadModal(true)}
-            className="hidden sm:flex relative px-2 sm:px-3 py-1.5 bg-gray-100 border border-gray-300 rounded-lg hover:bg-gray-200 transition-all duration-200 items-center gap-1.5 text-gray-700 flex-shrink-0"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            title="Upload Image/Video"
+            onClick={goToCart}
+            className="sm:hidden relative p-2 bg-white rounded-lg shadow-md border border-gray-200 hover:bg-gray-50 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <div className="relative">
-              <FaCamera className="text-xs sm:text-sm text-red-700" />
-              <span className="absolute -top-1 -right-1 text-[10px] font-bold text-gray-700">+</span>
-            </div>
-            <span className="text-[8px] sm:text-xs font-medium hidden md:inline">Upload</span>
+            <FaShoppingCart className="text-lg text-gray-700" />
+            {getTotalItems() > 0 && (
+              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] rounded-full w-4 h-4 flex items-center justify-center font-bold shadow-md">
+                {getTotalItems() > 9 ? '9+' : getTotalItems()}
+              </span>
+            )}
           </motion.button>
         </div>
       </div>
+
+      {/* Location Selection Modal */}
+      <AnimatePresence>
+        {showLocationModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            onClick={() => setShowLocationModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="p-4 md:p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-lg font-bold text-gray-900">Select Location</h2>
+                  <button
+                    onClick={() => setShowLocationModal(false)}
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    <FaTimes className="text-lg" />
+                  </button>
+                </div>
+                <div className="space-y-2">
+                  {[
+                    { type: "Home", address: "A Block Bol, Swastik Residacy" },
+                    { type: "Office", address: "123 Business Park, Sector 5" },
+                    { type: "Garage", address: "Auto Service Center, Main Road" }
+                  ].map((location, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        setSelectedLocation(location);
+                        setShowLocationModal(false);
+                      }}
+                      className={`w-full text-left p-3 rounded-lg border-2 transition-colors ${
+                        selectedLocation.type === location.type
+                          ? "border-red-500 bg-red-50"
+                          : "border-gray-200 hover:border-gray-300"
+                      }`}
+                    >
+                      <p className="font-semibold text-gray-900">{location.type}</p>
+                      <p className="text-sm text-gray-600">{location.address}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
 
       {/* Sidebar */}

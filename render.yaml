@@ -1,9 +1,9 @@
 services:
   - type: web
     name: ecommerce-sparelo
-    env: static
+    env: node
     buildCommand: npm install && npm run build
-    staticPublishPath: build
+    startCommand: npm run start-prod
     routes:
       - type: rewrite
         source: /*
