@@ -1,35 +1,6 @@
 import React, { useMemo } from 'react';
-import { FaChartLine, FaMoneyBillWave, FaShoppingCart, FaArrowUp, FaArrowDown } from 'react-icons/fa';
 
 const Overview = ({ timeSeriesData, dateRange, recentOrders }) => {
-  // Calculate earnings breakdown
-  const earningsData = useMemo(() => {
-    const totalRevenue = timeSeriesData?.reduce((sum, d) => sum + d.revenue, 0) || 0;
-    const totalOrders = timeSeriesData?.reduce((sum, d) => sum + d.orders, 0) || 0;
-    const totalSales = timeSeriesData?.reduce((sum, d) => sum + d.sales, 0) || 0;
-    
-    // Calculate breakdown
-    const commission = totalRevenue * 0.15; // 15% commission
-    const netEarnings = totalRevenue - commission;
-    const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
-    const avgItemsPerOrder = totalOrders > 0 ? totalSales / totalOrders : 0;
-    
-    // Calculate growth
-    const previousPeriodRevenue = totalRevenue * 0.85; // Simulated previous period
-    const revenueGrowth = ((totalRevenue - previousPeriodRevenue) / previousPeriodRevenue) * 100;
-    
-    return {
-      totalRevenue,
-      commission,
-      netEarnings,
-      totalOrders,
-      totalSales,
-      avgOrderValue,
-      avgItemsPerOrder,
-      revenueGrowth
-    };
-  }, [timeSeriesData]);
-
   // Revenue Chart component
   const RevenueChart = () => {
     if (!timeSeriesData || timeSeriesData.length === 0) return null;

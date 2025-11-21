@@ -275,7 +275,7 @@ const Footer = () => {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Copyright */}
               <div className="text-gray-600 text-[9px] sm:text-xs md:text-sm text-center md:text-left">
-                Autoparts © {new Date().getFullYear()} Demo Store. All Rights Reserved. Designed by Vaishnavi
+                Sparelo © {new Date().getFullYear()} Demo Store. All Rights Reserved. Designed by Vaishnavi
               </div>
 
               {/* Payment Methods */}

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { FaChartLine, FaChartBar, FaStar, FaBox, FaShoppingCart, FaUsers, FaArrowUp, FaArrowDown } from 'react-icons/fa';
+import { FaChartLine, FaChartBar, FaStar, FaBox, FaShoppingCart, FaUsers, FaArrowUp } from 'react-icons/fa';
 
 const Analytics = ({ timeSeriesData, products = [] }) => {
   // Calculate performance metrics

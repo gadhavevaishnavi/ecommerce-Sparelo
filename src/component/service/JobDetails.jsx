@@ -6,14 +6,14 @@ import { useEscrow } from '../../contexts/EscrowContext';
 import { useAuth } from '../../auth/AuthContext';
 import PartsBasketBuilder from './PartsBasketBuilder';
 import { 
-  FaClock, FaCheckCircle, FaTimesCircle, FaFileInvoice, 
-  FaShieldAlt, FaTruck, FaWrench, FaCamera, FaStar 
+  FaCheckCircle, FaTimesCircle, FaFileInvoice, 
+  FaShieldAlt, FaTruck, FaStar 
 } from 'react-icons/fa';
 
 const JobDetails = () => {
   const { jobId } = useParams();
   const navigate = useNavigate();
-  const { jobs, activeJob, updateJob, addDiagnosis, buildPartsBasket, createEstimate, approveEstimate, addMedia, completeQC, closeJob } = useJob();
+  const { jobs, activeJob, updateJob, addDiagnosis, buildPartsBasket, createEstimate, approveEstimate } = useJob();
   const { getCompatibleParts } = useVehicle();
   const { getEscrowByJobId } = useEscrow();
   const { user } = useAuth();
@@ -33,7 +33,7 @@ const JobDetails = () => {
 
   useEffect(() => {
     if (job?.vehicle) {
-      const parts = getCompatibleParts(job.symptoms);
+      getCompatibleParts(job.symptoms);
       // This would be set by mechanic during diagnosis
     }
   }, [job, getCompatibleParts]);

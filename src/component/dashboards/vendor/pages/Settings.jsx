@@ -4,11 +4,7 @@ import {
   FaStore,
   FaCreditCard,
   FaTruck,
-  FaBell,
-  FaEnvelope,
-  FaImage,
-  FaMapMarkerAlt,
-  FaPhone
+  FaBell
 } from 'react-icons/fa';
 
 const Settings = () => {

@@ -5,7 +5,7 @@ import { useJob } from '../../contexts/JobContext';
 import { useEscrow } from '../../contexts/EscrowContext';
 import { useAuth } from '../../auth/AuthContext';
 import VehicleLookup from './VehicleLookup';
-import { FaHome, FaWarehouse, FaCalendar, FaMapMarkerAlt, FaClock, FaStar, FaWrench } from 'react-icons/fa';
+import { FaHome, FaWarehouse, FaMapMarkerAlt, FaClock, FaStar, FaWrench } from 'react-icons/fa';
 
 const ServiceBooking = () => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const ServiceBooking = () => {
   const [preferredSlot, setPreferredSlot] = useState('');
   const [selectedGarage, setSelectedGarage] = useState(null);
   const [selectedMechanic, setSelectedMechanic] = useState(null);
-  const [reservationFee, setReservationFee] = useState(500);
+  const [reservationFee] = useState(500);
 
   // Mock garages and mechanics
   const garages = [
@@ -122,7 +122,7 @@ const ServiceBooking = () => {
     });
 
     // Create escrow for reservation
-    const escrow = createEscrow({
+    createEscrow({
       jobId: job.id,
       amount: reservationFee,
       type: 'reservation'

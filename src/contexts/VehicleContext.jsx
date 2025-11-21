@@ -9,7 +9,7 @@ export const VehicleProvider = ({ children }) => {
     return stored ? JSON.parse(stored) : [];
   });
 
-  const [partsDatabase, setPartsDatabase] = useState(() => {
+  const [partsDatabase] = useState(() => {
     // Mock parts database with compatibility matrix
     return [
       {

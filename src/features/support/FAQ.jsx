@@ -2,23 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   FaSearch, 
-  FaQuestionCircle, 
   FaShippingFast, 
-  FaCreditCard, 
-  FaUserShield, 
   FaExchangeAlt,
   FaPhone,
-  FaEnvelope,
   FaWhatsapp,
   FaArrowRight,
-  FaChevronDown,
-  FaChevronUp,
   FaShoppingCart,
   FaUser,
-  FaBox,
-  FaShieldAlt,
   FaHeadset,
-  FaFileAlt,
   FaComments,
   FaBook,
   FaStar
@@ -467,48 +458,6 @@ const HelpCenter = () => {
           </div>
         </section>
       </div>
-
-      {/* Footer */}
-      <footer className="bg-gray-800 text-white mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Sparelo</h3>
-              <p className="text-gray-400">India's largest auto parts marketplace with genuine parts and best prices.</p>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link to="/help" className="hover:text-white">Help Center</Link></li>
-                <li><Link to="/contact" className="hover:text-white">Contact Us</Link></li>
-                <li><Link to="/returns" className="hover:text-white">Returns & Refunds</Link></li>
-                <li><Link to="/shipping" className="hover:text-white">Shipping Info</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li><Link to="/about" className="hover:text-white">About Us</Link></li>
-                <li><Link to="/careers" className="hover:text-white">Careers</Link></li>
-                <li><Link to="/press" className="hover:text-white">Press</Link></li>
-                <li><Link to="/terms" className="hover:text-white">Terms & Conditions</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-lg font-semibold mb-4">Connect With Us</h4>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-400 hover:text-white">Facebook</a>
-                <a href="#" className="text-gray-400 hover:text-white">Twitter</a>
-                <a href="#" className="text-gray-400 hover:text-white">Instagram</a>
-                <a href="#" className="text-gray-400 hover:text-white">LinkedIn</a>
-              </div>
-            </div>
-          </div>
-          <div className="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Sparelo. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 };

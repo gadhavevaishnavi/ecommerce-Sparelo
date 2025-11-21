@@ -151,7 +151,7 @@ const ChatbotSupport = () => {
     const input = userInput.toLowerCase();
     
     // Check for exact matches in knowledge base categories
-    for (const [category, items] of Object.entries(knowledgeBase)) {
+    for (const [, items] of Object.entries(knowledgeBase)) {
       for (const [key, response] of Object.entries(items)) {
         if (input.includes(key)) {
           return response;
@@ -229,7 +229,7 @@ const ChatbotSupport = () => {
 
     for (const [keyword, match] of Object.entries(partialMatches)) {
       if (input.includes(keyword)) {
-        for (const [category, items] of Object.entries(knowledgeBase)) {
+        for (const [, items] of Object.entries(knowledgeBase)) {
           if (items[match]) {
             return items[match];
           }

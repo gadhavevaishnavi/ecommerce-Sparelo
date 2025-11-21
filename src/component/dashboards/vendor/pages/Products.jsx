@@ -18,7 +18,7 @@ import {
 const Products = ({ products, searchTerm, setSearchTerm }) => {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [, setSelectedProduct] = useState(null);
   const [filterCategory, setFilterCategory] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
   const [formData, setFormData] = useState({

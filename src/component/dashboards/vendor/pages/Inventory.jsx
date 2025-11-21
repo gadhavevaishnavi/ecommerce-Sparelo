@@ -9,7 +9,6 @@ import {
   FaPlus,
   FaSearch,
   FaFilter,
-  FaArrowUp,
   FaArrowDown
 } from 'react-icons/fa';
 

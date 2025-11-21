@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useVehicle } from '../../contexts/VehicleContext';
-import { FaCheckCircle, FaTimesCircle, FaShieldAlt, FaTruck, FaInfoCircle } from 'react-icons/fa';
+import { FaCheckCircle, FaTimesCircle, FaShieldAlt, FaInfoCircle } from 'react-icons/fa';
 
 const PartsBasketBuilder = ({ vehicle, symptoms, onPartsSelected, initialParts = [] }) => {
-  const { getCompatibleParts, getPartOptions } = useVehicle();
+  const { getCompatibleParts } = useVehicle();
   const [compatibleParts, setCompatibleParts] = useState([]);
   const [selectedParts, setSelectedParts] = useState(initialParts);
   const [expandedPart, setExpandedPart] = useState(null);

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useJob } from '../../contexts/JobContext';
 import { useAuth } from '../../auth/AuthContext';
-import { FaPrint, FaDownload, FaSave } from 'react-icons/fa';
+import { FaPrint, FaSave } from 'react-icons/fa';
 
 const VehicleJobCard = () => {
   const { jobId } = useParams();
@@ -207,12 +207,12 @@ const VehicleJobCard = () => {
     });
   };
 
-  const removePartRow = (index) => {
-    setFormData(prev => ({
-      ...prev,
-      parts: prev.parts.filter((_, i) => i !== index)
-    }));
-  };
+  // const removePartRow = (index) => {
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     parts: prev.parts.filter((_, i) => i !== index)
+  //   }));
+  // };
 
   const handleSave = () => {
     if (job) {
@@ -229,16 +229,16 @@ const VehicleJobCard = () => {
     window.print();
   };
 
-  const handleBodyDamageMark = (area) => {
-    // Toggle damage mark on body diagram
-    setFormData(prev => ({
-      ...prev,
-      bodyDamageAreas: {
-        ...prev.bodyDamageAreas,
-        [area]: !prev.bodyDamageAreas?.[area]
-      }
-    }));
-  };
+  // const handleBodyDamageMark = (area) => {
+  //   // Toggle damage mark on body diagram
+  //   setFormData(prev => ({
+  //     ...prev,
+  //     bodyDamageAreas: {
+  //       ...prev.bodyDamageAreas,
+  //       [area]: !prev.bodyDamageAreas?.[area]
+  //     }
+  //   }));
+  // };
 
   if (!job) {
     return (

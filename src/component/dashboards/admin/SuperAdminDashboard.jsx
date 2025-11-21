@@ -93,8 +93,8 @@ const SuperAdminDashboard = () => {
     dateRange === '7d' ? 7 : dateRange === '30d' ? 30 : 90
   ), [dateRange, refreshKey]);
 
-  // Calculate dynamic stats from actual data
-  const calculateStats = () => {
+  const stats = useMemo(() => {
+    // Calculate dynamic stats from actual data
     const totalUsers = Math.floor(Math.random() * 5000) + 10000;
     const totalVendors = Math.floor(Math.random() * 200) + 1000;
     const totalMechanics = Math.floor(Math.random() * 200) + 500;
@@ -114,7 +114,7 @@ const SuperAdminDashboard = () => {
       products: (Math.random() * 10 + 2).toFixed(1),
     };
 
-    return {
+    const calculated = {
       totalUsers,
       totalVendors,
       totalMechanics,
@@ -125,10 +125,6 @@ const SuperAdminDashboard = () => {
       completedJobs,
       changes,
     };
-  };
-
-  const stats = useMemo(() => {
-    const calculated = calculateStats();
     return [
       { 
         label: 'Total Users', 
@@ -195,7 +191,7 @@ const SuperAdminDashboard = () => {
         trend: 'neutral'
       },
     ];
-  }, [timeSeriesData, jobs, refreshKey]);
+  }, [timeSeriesData, jobs]);
 
   // Generate recent activities dynamically
   const recentActivities = useMemo(() => {
@@ -208,7 +204,7 @@ const SuperAdminDashboard = () => {
       { id: 6, type: 'user', message: '5 new customers registered', time: '4 hours ago', icon: FaUsers },
     ];
     return activities;
-  }, [refreshKey]);
+  }, []);
 
   // Top performing vendors
   const topVendors = useMemo(() => {
@@ -219,7 +215,7 @@ const SuperAdminDashboard = () => {
       { id: 4, name: 'Genuine Parts Store', orders: 654, revenue: '₹1.2M', rating: 4.9, status: 'active' },
       { id: 5, name: 'Budget Auto Parts', orders: 543, revenue: '₹980K', rating: 4.5, status: 'active' },
     ];
-  }, [refreshKey]);
+  }, []);
 
   // User management data
   const usersData = useMemo(() => {
@@ -241,7 +237,7 @@ const SuperAdminDashboard = () => {
       { id: 4, orderId: 'ORD-004', customer: 'Alice Brown', vendor: 'Genuine Parts', amount: '₹6,200', status: 'Pending', date: '2024-01-13', items: 2 },
       { id: 5, orderId: 'ORD-005', customer: 'Charlie Wilson', vendor: 'Budget Auto', amount: '₹9,800', status: 'Delivered', date: '2024-01-13', items: 4 },
     ];
-  }, [refreshKey]);
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -284,51 +280,6 @@ const SuperAdminDashboard = () => {
   };
 
   const currentPage = getCurrentPage();
-
-  // Chart components
-  const RevenueChart = () => {
-    const maxRevenue = Math.max(...timeSeriesData.map(d => d.revenue));
-    return (
-      <div className="space-y-2">
-        <div className="flex items-end justify-between h-32 gap-1">
-          {timeSeriesData.slice(-7).map((data, idx) => (
-            <div key={idx} className="flex-1 flex flex-col items-center">
-              <div
-                className="w-full bg-gradient-to-t from-blue-500 to-blue-300 rounded-t transition-all hover:opacity-80"
-                style={{ height: `${(data.revenue / maxRevenue) * 100}%` }}
-                title={`₹${data.revenue.toLocaleString()}`}
-              />
-              <span className="text-xs text-gray-500 mt-1">
-                {new Date(data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  const OrdersChart = () => {
-    const maxOrders = Math.max(...timeSeriesData.map(d => d.orders));
-    return (
-      <div className="space-y-2">
-        <div className="flex items-end justify-between h-32 gap-1">
-          {timeSeriesData.slice(-7).map((data, idx) => (
-            <div key={idx} className="flex-1 flex flex-col items-center">
-              <div
-                className="w-full bg-gradient-to-t from-green-500 to-green-300 rounded-t transition-all hover:opacity-80"
-                style={{ height: `${(data.orders / maxOrders) * 100}%` }}
-                title={`${data.orders} orders`}
-              />
-              <span className="text-xs text-gray-500 mt-1">
-                {new Date(data.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-50 flex">
