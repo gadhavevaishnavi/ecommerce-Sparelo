@@ -174,7 +174,7 @@ function App() {
                           <Article_review
                             items={[{ label: "Articles and Reviews", href: "/pages/article/" }]}
                           />
-                          <SpareloPage />
+                          {/* <SpareloPage /> */}
                         </>
                       }
                     />

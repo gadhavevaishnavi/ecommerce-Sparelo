@@ -1,10 +1,11 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation } from "swiper/modules";
 import { motion } from "framer-motion";
 import "swiper/css";
 import "swiper/css/navigation";
-
+ 
 export const categories = [
   { title: "Air Conditioning", href: "/catalog/air_conditioning/", img:"https://boodmo.com/media/cache/catalog_image/images/categories/db9dad4.jpg"}, // Receiver Drier
   { title: "Bearings", href: "/catalog/bearings/", img: "https://boodmo.com/media/cache/catalog_image/images/categories/40e95ca.jpg" }, // Big End Bearing
@@ -37,9 +38,91 @@ export const categories = [
   { title: "Windscreen Cleaning System", href: "/catalog/windscreen_cleaning_system/", img: "https://boodmo.com/media/cache/catalog_image/images/categories/1053d82.jpg" }, // Wiper Blade
 ];
 
+// Category Card Component
+const CategoryCard = React.memo(({ category, index, isGrid = false }) => {
+  const handleImageError = useCallback((e) => {
+    e.target.src = `https://via.placeholder.com/80x80?text=${category.title.substring(0, 2)}`;
+  }, [category.title]);
+
+  const animationProps = {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.5, delay: isGrid ? index * 0.03 : index * 0.05 }
+  };
+
+  return (
+    <motion.div
+      {...animationProps}
+      className="group flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-300"
+    >
+      <Link to={category.href} className="flex flex-col items-center w-full">
+        <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 mb-3 flex items-center justify-center bg-transparent">
+          <img 
+            src={category.img} 
+            alt={category.title} 
+            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 category-image" 
+            onError={handleImageError}
+            loading="lazy"
+          />
+        </div>
+        <span className="text-center font-semibold text-gray-700 text-xs sm:text-sm group-hover:text-red-600 transition-colors duration-300">
+          {category.title}
+        </span>
+      </Link>
+    </motion.div>
+  );
+});
+
+CategoryCard.displayName = 'CategoryCard';
+
 export default function SearchByCategory() {
   const swiperRef = useRef(null);
   const [showAll, setShowAll] = useState(false);
+
+  const toggleShowAll = useCallback(() => {
+    setShowAll(prev => !prev);
+  }, []);
+
+  const swiperConfig = useMemo(() => ({
+    modules: [Autoplay, Navigation],
+    spaceBetween: 12,
+    slidesPerView: 3,
+    loop: true,
+    speed: 800,
+    autoplay: {
+      delay: 2000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true
+    },
+    navigation: {
+      prevEl: '.category-prev',
+      nextEl: '.category-next',
+    },
+    onSwiper: (swiper) => {
+      swiperRef.current = swiper;
+      if (swiper.autoplay) {
+        swiper.autoplay.start();
+      }
+    },
+    breakpoints: {
+      640: {
+        slidesPerView: 4,
+        spaceBetween: 12
+      },
+      768: {
+        slidesPerView: 4,
+        spaceBetween: 14
+      },
+      1024: {
+        slidesPerView: 5,
+        spaceBetween: 14
+      },
+      1280: {
+        slidesPerView: 6,
+        spaceBetween: 16
+      }
+    }
+  }), []);
 
   return (
     <section className="relative bg-white py-4 sm:py-6 md:py-8 overflow-hidden">
@@ -58,8 +141,9 @@ export default function SearchByCategory() {
             </p>
           </div>
           <button
-            onClick={() => setShowAll(!showAll)}
-            className="px-4 py-2 sm:px-6 sm:py-2.5 text-blue-500 font-semibold rounded-lg duration-300 text-sm sm:text-base "
+            onClick={toggleShowAll}
+            className="px-4 py-2 sm:px-6 sm:py-2.5 text-blue-500 font-semibold rounded-lg duration-300 text-sm sm:text-base hover:text-blue-600 transition-colors"
+            aria-label={showAll ? "Show Less" : "View All"}
           >
             {showAll ? "Show Less" : "View All"}
           </button>
@@ -70,97 +154,25 @@ export default function SearchByCategory() {
           /* All Categories Grid */
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6">
             {categories.map((cat, index) => (
-              <motion.a
-                key={cat.title}
-                href={cat.href}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.03 }}
-                className="group flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-300"
-              >
-                <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 mb-3 flex items-center justify-center bg-transparent">
-                  <img 
-                    src={cat.img} 
-                    alt={cat.title} 
-                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 category-image" 
-                    onError={(e) => {
-                      e.target.src = 'https://via.placeholder.com/80x80?text=' + cat.title.substring(0, 2);
-                    }}
-                  />
-                </div>
-                <span className="text-center font-semibold text-gray-700 text-xs sm:text-sm group-hover:text-red-600 transition-colors duration-300">
-                  {cat.title}
-                </span>
-              </motion.a>
+              <CategoryCard 
+                key={cat.title} 
+                category={cat} 
+                index={index} 
+                isGrid={true}
+              />
             ))}
           </div>
         ) : (
           /* Swiper Container */
           <div className="relative">
-            <Swiper
-              modules={[Autoplay, Navigation]}
-              spaceBetween={12}
-              slidesPerView={2}
-              loop={true}
-              speed={800}
-              autoplay={{
-                delay: 2000,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true
-              }}
-              navigation={{
-                prevEl: '.category-prev',
-                nextEl: '.category-next',
-              }}
-              onSwiper={(swiper) => {
-                swiperRef.current = swiper;
-                if (swiper.autoplay) {
-                  swiper.autoplay.start();
-                }
-              }}
-              breakpoints={{
-                640: {
-                  slidesPerView: 3,
-                  spaceBetween: 12
-                },
-                768: {
-                  slidesPerView: 4,
-                  spaceBetween: 14
-                },
-                1024: {
-                  slidesPerView: 5,
-                  spaceBetween: 14
-                },
-                1280: {
-                  slidesPerView: 6,
-                  spaceBetween: 16
-                }
-              }}
-              className="category-swiper"
-            >
+            <Swiper {...swiperConfig} className="category-swiper">
               {categories.map((cat, index) => (
                 <SwiperSlide key={cat.title}>
-                  <motion.a
-                    href={cat.href}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
-                    className="group flex flex-col items-center p-4 rounded-lg hover:bg-gray-50 transition-colors duration-300"
-                  >
-                    <div className="w-24 h-24 sm:w-32 sm:h-32 md:w-36 md:h-36 mb-3 flex items-center justify-center bg-transparent">
-                      <img 
-                        src={cat.img} 
-                        alt={cat.title} 
-                        className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300 category-image" 
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/80x80?text=' + cat.title.substring(0, 2);
-                        }}
-                      />
-                    </div>
-                    <span className="text-center font-semibold text-gray-700 text-xs sm:text-sm group-hover:text-red-600 transition-colors duration-300">
-                      {cat.title}
-                    </span>
-                  </motion.a>
+                  <CategoryCard 
+                    category={cat} 
+                    index={index} 
+                    isGrid={false}
+                  />
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -169,16 +181,18 @@ export default function SearchByCategory() {
             <button
               className="category-prev absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-white border border-gray-200 hover:border-gray-300 flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
               aria-label="Previous slide"
+              type="button"
             >
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
               className="category-next absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/90 hover:bg-white border border-gray-200 hover:border-gray-300 flex items-center justify-center transition-all duration-300 shadow-sm hover:shadow-md"
               aria-label="Next slide"
+              type="button"
             >
-              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
@@ -201,22 +215,15 @@ export default function SearchByCategory() {
           cursor: not-allowed;
         }
         .category-image {
-          filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
-          mix-blend-mode: multiply;
           background: transparent;
         }
         .category-image:hover {
-          filter: drop-shadow(0 4px 12px rgba(0,0,0,0.2));
+          filter: none;
         }
       `}</style>
     </section>
   );
 }
-
-
-
-// "use client";
-// import React, { useRef, useEffect, useState } from "react";
 // import { Swiper, SwiperSlide } from "swiper/react";
 // import { Autoplay, Navigation, Pagination } from "swiper/modules";
 // import "swiper/css";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Navbar } from './Navbar';
+
 import { 
   FaMapMarkerAlt, 
   FaCreditCard, 
@@ -181,22 +181,22 @@ export const MyOrder = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-2 sm:px-3 md:px-4 py-2 sm:py-3 md:py-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-2 sm:mb-3 md:mb-8">
+          <h1 className="text-base sm:text-lg md:text-3xl font-bold text-gray-800 mb-1 sm:mb-2 md:mb-0">
             My <span className="text-red-500">Orders</span>
           </h1>
-          <Navbar />
+        
         </div>
 
         {/* Tabs */}
-        <div className="flex space-x-4 md:space-x-10 border-b border-gray-300 mb-6 overflow-x-auto">
+        <div className="flex space-x-1.5 sm:space-x-2 md:space-x-10 border-b border-gray-300 mb-2 sm:mb-3 md:mb-6 overflow-x-auto">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`pb-2 px-1 font-medium whitespace-nowrap transition-colors ${
+              className={`pb-1 sm:pb-1.5 md:pb-2 px-0.5 sm:px-1 font-medium whitespace-nowrap transition-colors text-[9px] sm:text-xs md:text-base ${
                 activeTab === tab
                   ? "text-sky-500 border-b-2 border-sky-500"
                   : "text-gray-500 hover:text-sky-500"
@@ -209,20 +209,20 @@ export const MyOrder = () => {
 
         {/* Orders List */}
         {filteredOrders.length === 0 ? (
-          <div className="flex flex-col items-center justify-center text-center py-20 bg-white rounded-xl shadow-sm">
-            <div className="text-6xl mb-4">📦</div>
-            <p className="text-gray-600 text-lg mb-4">
+          <div className="flex flex-col items-center justify-center text-center py-8 sm:py-12 md:py-20 bg-white rounded-xl shadow-sm">
+            <div className="text-3xl sm:text-4xl md:text-6xl mb-2 sm:mb-3 md:mb-4">📦</div>
+            <p className="text-gray-600 text-xs sm:text-sm md:text-lg mb-2 sm:mb-3 md:mb-4">
               No {activeTab} orders
             </p>
             <Link
               to="/"
-              className="bg-red-400 hover:bg-red-500 text-white px-6 py-4 rounded-md transition"
+              className="bg-red-400 hover:bg-red-500 text-white px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 md:py-4 rounded-md transition text-[10px] sm:text-xs md:text-base"
             >
               Continue shopping
             </Link>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-2 sm:space-y-3 md:space-y-4">
             {filteredOrders.map((order) => {
               const trackingStatus = getOrderTrackingStatus(order);
               const isExpanded = expandedOrders[order.id];
@@ -233,32 +233,32 @@ export const MyOrder = () => {
                 className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden"
               >
                 {/* Order Header */}
-                <div className="p-6 border-b border-gray-200 bg-gray-50">
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                    <div className="flex items-center gap-4">
-                      <div className="text-2xl">
+                <div className="p-2 sm:p-3 md:p-6 border-b border-gray-200 bg-gray-50">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 sm:gap-2 md:gap-4">
+                    <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4">
+                      <div className="text-sm sm:text-base md:text-2xl">
                         {getStatusIcon(order.status)}
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-800">
+                        <h3 className="text-[10px] sm:text-xs md:text-lg font-semibold text-gray-800">
                           Order #{order.id}
                         </h3>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600">
                           Placed on {formatDate(order.date)}
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4">
                       <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
+                        className={`px-1.5 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] md:text-sm font-medium ${getStatusColor(
                           order.status
                         )}`}
                       >
                         {order.status}
                       </span>
                       <div className="text-right">
-                        <p className="text-sm text-gray-600">Total Amount</p>
-                        <p className="text-xl font-bold text-gray-800">
+                        <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600">Total Amount</p>
+                        <p className="text-xs sm:text-sm md:text-xl font-bold text-gray-800">
                           ₹{order.total.toFixed(2)}
                         </p>
                       </div>
@@ -266,34 +266,34 @@ export const MyOrder = () => {
                   </div>
                   
                   {/* Action Buttons */}
-                  <div className="flex items-center gap-3 mt-4">
+                  <div className="flex items-center gap-1 sm:gap-1.5 md:gap-3 mt-1.5 sm:mt-2 md:mt-4 flex-wrap">
                     {canCancelOrder(order) && (
                       <button
                         onClick={() => handleCancelOrder(order)}
-                        className="px-4 py-2 text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                        className="px-1.5 sm:px-2 md:px-4 py-1 sm:py-1.5 md:py-2 text-[9px] sm:text-[10px] md:text-sm font-medium text-red-600 border border-red-600 rounded-lg hover:bg-red-50 transition-colors"
                       >
                         Cancel Order
                       </button>
                     )}
                     <button
                       onClick={() => toggleOrderDetails(order.id)}
-                      className="px-4 py-2 text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-2"
+                      className="px-1.5 sm:px-2 md:px-4 py-1 sm:py-1.5 md:py-2 text-[9px] sm:text-[10px] md:text-sm font-medium text-blue-600 border border-blue-600 rounded-lg hover:bg-blue-50 transition-colors flex items-center gap-0.5 sm:gap-1 md:gap-2"
                     >
                       {isExpanded ? (
                         <>
-                          <FaChevronUp className="text-xs" />
+                          <FaChevronUp className="text-[7px] sm:text-[8px] md:text-[10px]" />
                           Hide Details
                         </>
                       ) : (
                         <>
-                          <FaChevronDown className="text-xs" />
+                          <FaChevronDown className="text-[7px] sm:text-[8px] md:text-[10px]" />
                           View Tracking
                         </>
                       )}
                     </button>
                     <Link
                       to={`/checkout/confirmation?orderId=${order.id}`}
-                      className="px-4 py-2 text-sm font-medium text-green-600 border border-green-600 rounded-lg hover:bg-green-50 transition-colors"
+                      className="px-1.5 sm:px-2 md:px-4 py-1 sm:py-1.5 md:py-2 text-[9px] sm:text-[10px] md:text-sm font-medium text-green-600 border border-green-600 rounded-lg hover:bg-green-50 transition-colors"
                     >
                       View Receipt
                     </Link>
@@ -301,56 +301,56 @@ export const MyOrder = () => {
                 </div>
 
                 {/* Order Items */}
-                <div className="p-6">
-                  <div className="space-y-4">
+                <div className="p-2 sm:p-3 md:p-6">
+                  <div className="space-y-1.5 sm:space-y-2 md:space-y-4">
                     {order.items.map((item, index) => {
                       const itemStatus = getItemStatus(item, order);
                       
                       return (
                       <div
                         key={index}
-                        className={`flex gap-4 pb-4 border-b border-gray-100 last:border-b-0 ${
-                          itemStatus ? 'bg-yellow-50 p-4 rounded-lg border-yellow-200' : ''
+                        className={`flex gap-1.5 sm:gap-2 md:gap-4 pb-1.5 sm:pb-2 md:pb-4 border-b border-gray-100 last:border-b-0 ${
+                          itemStatus ? 'bg-yellow-50 p-1.5 sm:p-2 md:p-4 rounded-lg border-yellow-200' : ''
                         }`}
                       >
                         <img
                           src={item.imageUrl || "https://via.placeholder.com/100"}
                           alt={item.name}
-                          className="w-20 h-20 object-cover rounded-lg"
+                          className="w-10 h-10 sm:w-14 sm:h-14 md:w-20 md:h-20 object-cover rounded-lg"
                         />
                         <div className="flex-1">
-                          <div className="flex items-start justify-between mb-1">
-                            <h4 className="font-semibold text-gray-800">
+                          <div className="flex items-start justify-between mb-0.5 sm:mb-1">
+                            <h4 className="font-semibold text-gray-800 text-[10px] sm:text-xs md:text-base">
                               {item.name}
                             </h4>
                             {itemStatus && (
-                              <div className={`flex items-center gap-1 px-2 py-1 rounded text-xs font-medium ${
+                              <div className={`flex items-center gap-0.5 sm:gap-1 px-1 sm:px-1.5 md:px-2 py-0.5 sm:py-1 rounded text-[7px] sm:text-[9px] md:text-xs font-medium ${
                                 itemStatus.type === 'backordered' 
                                   ? 'bg-orange-100 text-orange-800' 
                                   : 'bg-yellow-100 text-yellow-800'
                               }`}>
                                 {itemStatus.type === 'backordered' ? (
-                                  <FaBox className="text-xs" />
+                                  <FaBox className="text-[7px] sm:text-[8px] md:text-xs" />
                                 ) : (
-                                  <FaClock className="text-xs" />
+                                  <FaClock className="text-[7px] sm:text-[8px] md:text-xs" />
                                 )}
                                 {itemStatus.type === 'backordered' ? 'Backordered' : 'Delayed'}
                               </div>
                             )}
                           </div>
-                          <p className="text-sm text-gray-600 mb-1">
+                          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mb-0.5">
                             {item.partNumber || item.id}
                           </p>
-                          <p className="text-sm text-gray-600 mb-2">
+                          <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600 mb-1 sm:mb-1.5 md:mb-2">
                             Brand: {item.brand || "N/A"} | Sold by: {item.seller}
                           </p>
                           {itemStatus && (
-                            <div className="mb-2 p-2 bg-white rounded border border-yellow-300">
-                              <div className="flex items-start gap-2">
-                                <FaExclamationTriangle className={`text-xs mt-0.5 ${
+                            <div className="mb-1 sm:mb-1.5 md:mb-2 p-1 sm:p-1.5 md:p-2 bg-white rounded border border-yellow-300">
+                              <div className="flex items-start gap-1 sm:gap-1.5 md:gap-2">
+                                <FaExclamationTriangle className={`text-[7px] sm:text-[9px] md:text-xs mt-0.5 ${
                                   itemStatus.type === 'backordered' ? 'text-orange-500' : 'text-yellow-500'
                                 }`} />
-                                <p className={`text-xs ${
+                                <p className={`text-[9px] sm:text-[10px] md:text-xs ${
                                   itemStatus.type === 'backordered' ? 'text-orange-700' : 'text-yellow-700'
                                 }`}>
                                   {itemStatus.message}
@@ -358,11 +358,11 @@ export const MyOrder = () => {
                               </div>
                             </div>
                           )}
-                          <div className="flex items-center gap-4">
-                            <span className="text-sm text-gray-600">
+                          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-4">
+                            <span className="text-[9px] sm:text-[10px] md:text-sm text-gray-600">
                               Qty: {item.quantity}
                             </span>
-                            <span className="text-lg font-semibold text-gray-800">
+                            <span className="text-xs sm:text-sm md:text-lg font-semibold text-gray-800">
                               ₹
                               {(
                                 (item.discountPrice || item.price) *
@@ -370,7 +370,7 @@ export const MyOrder = () => {
                               ).toFixed(2)}
                             </span>
                             {item.discountPrice && (
-                              <span className="text-sm text-gray-500 line-through">
+                              <span className="text-[9px] sm:text-[10px] md:text-sm text-gray-500 line-through">
                                 ₹{(item.price * item.quantity).toFixed(2)}
                               </span>
                             )}
@@ -391,67 +391,67 @@ export const MyOrder = () => {
                       transition={{ duration: 0.3 }}
                       className="overflow-hidden"
                     >
-                      <div className="px-6 py-6 bg-blue-50 border-t border-gray-200">
-                        <h4 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                          <FaTruck className="text-blue-600" />
+                      <div className="px-2 sm:px-3 md:px-6 py-2 sm:py-3 md:py-6 bg-blue-50 border-t border-gray-200">
+                        <h4 className="font-semibold text-gray-800 mb-2 sm:mb-3 md:mb-4 flex items-center gap-1 sm:gap-1.5 md:gap-2 text-[10px] sm:text-xs md:text-base">
+                          <FaTruck className="text-blue-600 text-[10px] sm:text-xs md:text-sm" />
                           Order Tracking
                         </h4>
                         <div className="relative">
-                          <div className="space-y-4">
+                          <div className="space-y-3 sm:space-y-4">
                             {/* Step 1: Order Confirmed */}
-                            <div className="flex gap-4">
+                            <div className="flex gap-2 sm:gap-3 md:gap-4">
                               <div className="flex flex-col items-center">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                <div className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center ${
                                   trackingStatus.step >= 1 ? 'bg-green-500' : 'bg-gray-300'
                                 }`}>
-                                  <FaCheckCircle className={`text-white text-lg ${
+                                  <FaCheckCircle className={`text-white text-xs sm:text-sm md:text-lg ${
                                     trackingStatus.step >= 1 ? 'opacity-100' : 'opacity-50'
                                   }`} />
                                 </div>
                                 {trackingStatus.step < 4 && (
-                                  <div className={`w-0.5 h-12 mt-2 ${
+                                  <div className={`w-0.5 h-8 sm:h-10 md:h-12 mt-1 sm:mt-1.5 md:mt-2 ${
                                     trackingStatus.step >= 2 ? 'bg-green-500' : 'bg-gray-300'
                                   }`}></div>
                                 )}
                               </div>
-                              <div className="flex-1 pb-4">
-                                <h5 className={`font-medium mb-1 ${
+                              <div className="flex-1 pb-3 sm:pb-3.5 md:pb-4">
+                                <h5 className={`font-medium mb-0.5 sm:mb-1 text-[10px] sm:text-xs md:text-base ${
                                   trackingStatus.step >= 1 ? 'text-gray-800' : 'text-gray-400'
                                 }`}>
                                   Order Confirmed
                                 </h5>
-                                <p className={`text-sm ${
+                                <p className={`text-[10px] sm:text-xs md:text-sm ${
                                   trackingStatus.step >= 1 ? 'text-gray-600' : 'text-gray-400'
                                 }`}>
                                   Your order has been confirmed
                                 </p>
-                                <p className="text-xs text-gray-500 mt-1">{formatDate(order.date)}</p>
+                                <p className="text-[9px] sm:text-[10px] md:text-xs text-gray-500 mt-0.5 sm:mt-1">{formatDate(order.date)}</p>
                               </div>
                             </div>
 
                             {/* Step 2: Processing */}
-                            <div className="flex gap-4">
+                            <div className="flex gap-2 sm:gap-3 md:gap-4">
                               <div className="flex flex-col items-center">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                <div className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center ${
                                   trackingStatus.step >= 2 ? 'bg-blue-500' : 'bg-gray-300'
                                 }`}>
-                                  <FaBox className={`text-white text-lg ${
+                                  <FaBox className={`text-white text-xs sm:text-sm md:text-lg ${
                                     trackingStatus.step >= 2 ? 'opacity-100' : 'opacity-50'
                                   }`} />
                                 </div>
                                 {trackingStatus.step < 4 && (
-                                  <div className={`w-0.5 h-12 mt-2 ${
+                                  <div className={`w-0.5 h-8 sm:h-10 md:h-12 mt-1 sm:mt-1.5 md:mt-2 ${
                                     trackingStatus.step >= 3 ? 'bg-blue-500' : 'bg-gray-300'
                                   }`}></div>
                                 )}
                               </div>
-                              <div className="flex-1 pb-4">
-                                <h5 className={`font-medium mb-1 ${
+                              <div className="flex-1 pb-3 sm:pb-3.5 md:pb-4">
+                                <h5 className={`font-medium mb-0.5 sm:mb-1 text-[10px] sm:text-xs md:text-base ${
                                   trackingStatus.step >= 2 ? 'text-gray-800' : 'text-gray-400'
                                 }`}>
                                   Processing
                                 </h5>
-                                <p className={`text-sm ${
+                                <p className={`text-[10px] sm:text-xs md:text-sm ${
                                   trackingStatus.step >= 2 ? 'text-gray-600' : 'text-gray-400'
                                 }`}>
                                   Your order is being prepared for shipment
@@ -460,28 +460,28 @@ export const MyOrder = () => {
                             </div>
 
                             {/* Step 3: Shipped */}
-                            <div className="flex gap-4">
+                            <div className="flex gap-2 sm:gap-3 md:gap-4">
                               <div className="flex flex-col items-center">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                <div className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center ${
                                   trackingStatus.step >= 3 ? 'bg-purple-500' : 'bg-gray-300'
                                 }`}>
-                                  <FaTruck className={`text-white text-lg ${
+                                  <FaTruck className={`text-white text-xs sm:text-sm md:text-lg ${
                                     trackingStatus.step >= 3 ? 'opacity-100' : 'opacity-50'
                                   }`} />
                                 </div>
                                 {trackingStatus.step < 4 && (
-                                  <div className={`w-0.5 h-12 mt-2 ${
+                                  <div className={`w-0.5 h-8 sm:h-10 md:h-12 mt-1 sm:mt-1.5 md:mt-2 ${
                                     trackingStatus.step >= 4 ? 'bg-purple-500' : 'bg-gray-300'
                                   }`}></div>
                                 )}
                               </div>
-                              <div className="flex-1 pb-4">
-                                <h5 className={`font-medium mb-1 ${
+                              <div className="flex-1 pb-3 sm:pb-3.5 md:pb-4">
+                                <h5 className={`font-medium mb-0.5 sm:mb-1 text-[10px] sm:text-xs md:text-base ${
                                   trackingStatus.step >= 3 ? 'text-gray-800' : 'text-gray-400'
                                 }`}>
                                   Shipped
                                 </h5>
-                                <p className={`text-sm ${
+                                <p className={`text-[10px] sm:text-xs md:text-sm ${
                                   trackingStatus.step >= 3 ? 'text-gray-600' : 'text-gray-400'
                                 }`}>
                                   Your order has been shipped
@@ -490,23 +490,23 @@ export const MyOrder = () => {
                             </div>
 
                             {/* Step 4: Delivered */}
-                            <div className="flex gap-4">
+                            <div className="flex gap-2 sm:gap-3 md:gap-4">
                               <div className="flex flex-col items-center">
-                                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                                <div className={`w-7 h-7 sm:w-8 sm:h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center ${
                                   trackingStatus.step >= 4 ? 'bg-green-500' : 'bg-gray-300'
                                 }`}>
-                                  <FaCheckCircle className={`text-white text-lg ${
+                                  <FaCheckCircle className={`text-white text-xs sm:text-sm md:text-lg ${
                                     trackingStatus.step >= 4 ? 'opacity-100' : 'opacity-50'
                                   }`} />
                                 </div>
                               </div>
                               <div className="flex-1">
-                                <h5 className={`font-medium mb-1 ${
+                                <h5 className={`font-medium mb-0.5 sm:mb-1 text-[10px] sm:text-xs md:text-base ${
                                   trackingStatus.step >= 4 ? 'text-gray-800' : 'text-gray-400'
                                 }`}>
                                   Delivered
                                 </h5>
-                                <p className={`text-sm ${
+                                <p className={`text-[10px] sm:text-xs md:text-sm ${
                                   trackingStatus.step >= 4 ? 'text-gray-600' : 'text-gray-400'
                                 }`}>
                                   Your order has been delivered
@@ -517,8 +517,8 @@ export const MyOrder = () => {
                         </div>
                         
                         {/* Support Link */}
-                        <div className="mt-4 pt-4 border-t border-gray-200">
-                          <p className="text-sm text-gray-600">
+                        <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-200">
+                          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600">
                             Need help tracking your order?{' '}
                             <Link to="/support" className="text-blue-600 hover:underline font-medium">
                               Contact Support
@@ -535,32 +535,32 @@ export const MyOrder = () => {
                 </AnimatePresence>
 
                 {/* Order Summary */}
-                <div className="px-6 py-4 bg-gray-50 border-t border-gray-200">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="px-2 sm:px-3 md:px-6 py-2 sm:py-2.5 md:py-4 bg-gray-50 border-t border-gray-200">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-2.5 md:gap-4">
                     {/* Shipping Address */}
                     {order.shippingAddress && (
                       <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <FaMapMarkerAlt className="text-gray-600" />
-                            <h4 className="font-semibold text-gray-800">
+                        <div className="flex items-center justify-between mb-1 sm:mb-1.5 md:mb-2">
+                          <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
+                            <FaMapMarkerAlt className="text-gray-600 text-[10px] sm:text-xs md:text-sm" />
+                            <h4 className="font-semibold text-gray-800 text-[10px] sm:text-xs md:text-base">
                               Shipping Address
                             </h4>
                           </div>
                           <button
                             onClick={() => handleOpenMap(order.shippingAddress)}
-                            className="flex items-center gap-1 hover:opacity-80 transition-colors cursor-pointer text-sm"
+                            className="flex items-center gap-0.5 sm:gap-1 hover:opacity-80 transition-colors cursor-pointer text-[9px] sm:text-[10px] md:text-sm"
                             title="Open in Google Maps"
                             style={{ color: '#EA4335' }}
                           >
-                            <FaMapMarkerAlt className="text-sm" />
+                            <FaMapMarkerAlt className="text-[9px] sm:text-[10px] md:text-xs" />
                             <span>View Map</span>
                           </button>
                         </div>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600">
                           {order.shippingAddress.name} - {order.shippingAddress.mobile}
                         </p>
-                        <p className="text-sm text-gray-600">
+                        <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600">
                           {order.shippingAddress.address}, {order.shippingAddress.cityState}, {order.shippingAddress.postalCode}
                         </p>
                       </div>
@@ -568,33 +568,33 @@ export const MyOrder = () => {
 
                     {/* Payment Method */}
                     <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <FaCreditCard className="text-gray-600" />
-                        <h4 className="font-semibold text-gray-800">
+                      <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2 mb-1 sm:mb-1.5 md:mb-2">
+                        <FaCreditCard className="text-gray-600 text-[10px] sm:text-xs md:text-sm" />
+                        <h4 className="font-semibold text-gray-800 text-[10px] sm:text-xs md:text-base">
                           Payment Method
                         </h4>
                       </div>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-[9px] sm:text-[10px] md:text-sm text-gray-600">
                         {order.paymentMethod}
                       </p>
                     </div>
                   </div>
 
                   {/* Order Totals */}
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                  <div className="mt-2 sm:mt-3 md:mt-4 pt-2 sm:pt-3 md:pt-4 border-t border-gray-200">
+                    <div className="flex justify-between text-[9px] sm:text-[10px] md:text-sm text-gray-600 mb-1 sm:mb-1.5 md:mb-2">
                       <span>Subtotal ({order.totalItems} items)</span>
                       <span>₹{order.subtotal.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex justify-between text-[9px] sm:text-[10px] md:text-sm text-gray-600 mb-1 sm:mb-1.5 md:mb-2">
                       <span>Delivery Charge</span>
                       <span>₹{order.deliveryCharge.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <div className="flex justify-between text-[9px] sm:text-[10px] md:text-sm text-gray-600 mb-1 sm:mb-1.5 md:mb-2">
                       <span>Platform Fee</span>
                       <span>₹{order.platformFee.toFixed(2)}</span>
                     </div>
-                    <div className="flex justify-between text-lg font-bold text-gray-800 pt-2 border-t border-gray-200">
+                    <div className="flex justify-between text-xs sm:text-sm md:text-lg font-bold text-gray-800 pt-1 sm:pt-1.5 md:pt-2 border-t border-gray-200">
                       <span>Total</span>
                       <span>₹{order.total.toFixed(2)}</span>
                     </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Navbar } from './Navbar'
+
 import { useVehicle } from '../contexts/VehicleContext'
 import { FaEdit, FaTrash, FaPlus, FaTimes } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
@@ -90,34 +90,34 @@ export const Garage = () => {
   };
 
   return (
-    <div className="px-4 md:px-10 py-10">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">
+    <div className="px-3 sm:px-4 md:px-10 py-4 sm:py-6 md:py-10">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 sm:mb-6 md:mb-8">
+        <h1 className="text-lg sm:text-xl md:text-3xl font-bold text-gray-800">
           My <span className="text-red-500">Garage</span>
         </h1>
-        <Navbar />
+     
       </div>
 
       {vehicles.length === 0 ? (
-        <div className="flex flex-col justify-center items-center min-h-[60vh] text-center px-6">
-          <h2 className="text-cyan-800 font-semibold text-3xl mb-4">No Cars Added</h2>
-          <p className="text-gray-700 mb-6">
+        <div className="flex flex-col justify-center items-center min-h-[50vh] sm:min-h-[55vh] md:min-h-[60vh] text-center px-4 sm:px-6">
+          <h2 className="text-cyan-800 font-semibold text-base sm:text-lg md:text-3xl mb-3 sm:mb-4">No Cars Added</h2>
+          <p className="text-gray-700 mb-4 sm:mb-5 md:mb-6 text-xs sm:text-sm md:text-base">
             Save your cars to My Garage and find spare parts for them in the catalogue with just one click!
           </p>
           <button 
             onClick={() => setShowAddModal(true)}
-            className="bg-red-500 hover:bg-red-600 text-white rounded py-3 px-6 font-semibold"
+            className="bg-red-500 hover:bg-red-600 text-white rounded py-2 sm:py-2.5 md:py-3 px-4 sm:px-5 md:px-6 font-semibold text-xs sm:text-sm md:text-base"
           >
             Add Cars Now
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 sm:gap-3.5 md:gap-4">
           {/* Vehicle Cards */}
           {vehicles.map((vehicle) => (
             <div key={vehicle.id} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow">
               {/* Car Image */}
-              <div className="relative h-40 bg-white flex items-center justify-center p-2">
+              <div className="relative h-32 sm:h-36 md:h-40 bg-white flex items-center justify-center p-1.5 sm:p-2">
                 <img
                   src={getCarImage(vehicle.make, vehicle.model)}
                   alt={`${vehicle.make} ${vehicle.model}`}
@@ -128,30 +128,30 @@ export const Garage = () => {
                   }}
                 />
                 {/* Edit and Delete Icons */}
-                <div className="absolute top-1 right-1 flex gap-1">
+                <div className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 flex gap-0.5 sm:gap-1">
                   <button
                     onClick={() => handleEdit(vehicle)}
-                    className="bg-blue-500 text-white p-1.5 rounded-full hover:bg-blue-600 transition-colors shadow-md"
+                    className="bg-blue-500 text-white p-1 sm:p-1.5 rounded-full hover:bg-blue-600 transition-colors shadow-md"
                     title="Edit"
                   >
-                    <FaEdit className="text-xs" />
+                    <FaEdit className="text-[8px] sm:text-[10px] md:text-xs" />
                   </button>
                   <button
                     onClick={() => handleDelete(vehicle)}
-                    className="bg-red-500 text-white p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-md"
+                    className="bg-red-500 text-white p-1 sm:p-1.5 rounded-full hover:bg-red-600 transition-colors shadow-md"
                     title="Delete"
                   >
-                    <FaTrash className="text-xs" />
+                    <FaTrash className="text-[8px] sm:text-[10px] md:text-xs" />
                   </button>
                 </div>
               </div>
 
               {/* Car Details */}
-              <div className="p-3">
-                <h3 className="text-sm font-bold text-blue-900 mb-1.5 uppercase line-clamp-1">
+              <div className="p-2 sm:p-2.5 md:p-3">
+                <h3 className="text-xs sm:text-sm font-bold text-blue-900 mb-1 sm:mb-1.5 uppercase line-clamp-1">
                   {vehicle.make} {vehicle.model}
                 </h3>
-                <div className="space-y-0.5 text-xs text-gray-600 mb-3">
+                <div className="space-y-0.5 text-[10px] sm:text-xs text-gray-600 mb-2 sm:mb-2.5 md:mb-3">
                   <p className="font-medium truncate">{getEngineInfo(vehicle.variant)} / {vehicle.variant || 'N/A'}</p>
                   <p>Model Year: {vehicle.year}</p>
                   {vehicle.registrationNumber && (
@@ -163,7 +163,7 @@ export const Garage = () => {
                 </div>
                 <button 
                   onClick={() => handleOpenServiceKit(vehicle)}
-                  className="w-full border-2 border-gray-400 text-gray-600 py-1.5 rounded-md text-xs font-semibold hover:bg-blue-50 transition-colors uppercase"
+                  className="w-full border-2 border-gray-400 text-gray-600 py-1 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-semibold hover:bg-blue-50 transition-colors uppercase"
                 >
                   OPEN SERVICE KIT
                 </button>
@@ -174,11 +174,11 @@ export const Garage = () => {
           {/* Add New Car Card */}
           <div 
             onClick={() => setShowAddModal(true)}
-            className="bg-white rounded-lg shadow-md border-2 border-dashed border-gray-300 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer flex flex-col items-center justify-center min-h-[280px]"
+            className="bg-white rounded-lg shadow-md border-2 border-dashed border-gray-300 hover:border-blue-400 hover:shadow-lg transition-all cursor-pointer flex flex-col items-center justify-center min-h-[200px] sm:min-h-[240px] md:min-h-[280px]"
           >
-            <div className="text-center p-4">
-              <FaPlus className="text-4xl text-blue-400 mx-auto mb-2" />
-              <h3 className="text-sm font-bold text-gray-800">Add New Car</h3>
+            <div className="text-center p-3 sm:p-4">
+              <FaPlus className="text-3xl sm:text-3.5xl md:text-4xl text-blue-400 mx-auto mb-1.5 sm:mb-2" />
+              <h3 className="text-xs sm:text-sm font-bold text-gray-800">Add New Car</h3>
             </div>
           </div>
         </div>

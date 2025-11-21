@@ -1,15 +1,14 @@
 import React from "react";
-import { Navbar } from "./Navbar"; // adjust the path if needed
 
 export const MyWishlist = () => {
   return (
     <div className="px-10 py-10">
-      {/* Title + Navbar */}
+     
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
         <h1 className="text-3xl font-bold text-gray-800">
           My <span className="text-red-500">Wishlist</span>
         </h1>
-        <Navbar />
+       
       </div>
 
       {/* Content (unchanged) */}

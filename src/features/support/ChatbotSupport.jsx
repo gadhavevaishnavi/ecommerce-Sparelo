@@ -313,16 +313,18 @@ const ChatbotSupport = () => {
 
   return (
     <>
-      {/* Chat Toggle Button */}
+      {/* Chat Toggle Button - Right side, moved up from bottom navigation, centered horizontally */}
+      
       <motion.button
-        className="fixed bottom-6 right-6 bg-gradient-to-r from-red-500 to-orange-500 text-white p-4 rounded-full shadow-2xl z-50"
+        className="fixed bottom-20 sm:bottom-24 md:bottom-28 right-4 sm:right-6 md:right-8 bg-gradient-to-r from-red-500 to-orange-500 text-white p-2.5 sm:p-3 md:p-3.5 rounded-full shadow-2xl z-50"
         whileHover={{ scale: 1.1, rotate: 5 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(true)}
+        aria-label="Open chat support"
       >
-        <FaRobot className="text-2xl" />
+        <FaRobot className="text-lg sm:text-xl md:text-2xl" />
         <motion.div
-          className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full"
+          className="absolute -top-1 -right-1 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-green-500 rounded-full"
           animate={{ scale: [1, 1.2, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
@@ -335,7 +337,7 @@ const ChatbotSupport = () => {
             initial={{ opacity: 0, y: 100, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 100, scale: 0.9 }}
-            className="fixed bottom-24 right-6 w-96 h-[550px] bg-white rounded-2xl shadow-2xl overflow-hidden z-50 border border-gray-200"
+            className="fixed bottom-20 sm:bottom-24 md:bottom-28 right-4 sm:right-6 md:right-8 w-[calc(100vw-2rem)] sm:w-96 max-w-sm h-[500px] sm:h-[550px] bg-white rounded-2xl shadow-2xl overflow-hidden z-50 border border-gray-200"
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-red-500 to-orange-500 text-white p-4 flex justify-between items-center">
